@@ -20,7 +20,7 @@ var lengthOfLongestSubstring = function (s) {
 // console.log(lengthOfLongestSubstring(''))
 let set = new Set()
 set.add(1).add(2).add(3)
-set.delete( set.keys().next().value)
+set.delete(set.keys().next().value)
 set.add(1)
 // console.log(set)
 
@@ -50,7 +50,27 @@ console.log(lengthOfLongestSubstring2("bbbbb"))
 console.log(lengthOfLongestSubstring2("0"))
 
 
-//优化滑动窗口
+//优化滑动窗口，找到被重复的值的下标；然后从下标之后再往后遍历
 let lengthOfLongestSubstring3 = function (s) {
+    let l = 0, right = 0;
+    let m = new Map();
+    let maxLength = 0;
 
+    while (right < s.length) {
+
+        if (!m.has(s[right])) {
+            m.set(s[right], right)
+            right++
+        } else {
+            maxLength = Math.max(right - l, maxLength)
+
+            let index = m.get(s[right]);
+            l = index + 1
+            right = l
+            m.clear()
+        }
+    }
+    maxLength = Math.max(right - l, maxLength)
+
+    return maxLength
 }
