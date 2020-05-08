@@ -25,7 +25,9 @@ var levelOrder = function (root) {
 
         while (i < result[index].length) {
             let cur = result[index][i]
-            console.log(cur.val, 28)
+            if (!cur) {
+                return resultValue
+            }
             level.push(cur.val)
 
             if (cur.left) levelNode.push(cur.left)
@@ -33,15 +35,39 @@ var levelOrder = function (root) {
             i++
 
         }
-        console.log(level, 3737)
-        resultValue.push(level)
-        result.push(levelNode)
+        if (level.length > 0)
+            resultValue.push(level)
+        if (levelNode.length > 0)
+            result.push(levelNode)
 
         index++
     }
-    console.log(resultValue, 42)
+    return resultValue
 
 };
+var levelOrder2 = function(root) {
+    var result = []
+    if (root == null) return result
+    var queue = []
+    // 根节点入队
+    queue.push(root)
+    var len
+    while ((len = queue.length) !== 0) {
+        var level = []
+        for (var i = 0; i < len; i++) {
+            var temp = queue.shift()
+            if (temp.left !== null) {
+                queue.push(temp.left)
+            }
+            if (temp.right !== null) {
+                queue.push(temp.right)
+            }
+            level.push(temp.val)
+        }
+        result.push(level)
+    }
+    return result
+}
 
 let three = new TreeNode(3)
 let nine = new TreeNode(9)
@@ -54,4 +80,5 @@ three.right = two
 two.left = five
 two.right = seven
 
-levelOrder(three)
+console.log(levelOrder2(three))
+console.log(levelOrder(null))
