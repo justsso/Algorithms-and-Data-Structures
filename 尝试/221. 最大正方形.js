@@ -10,4 +10,4 @@ var maximalSquare = function(matrix) {
  */
 var maximalSquare = function(matrix) {
 
-    };
+};
