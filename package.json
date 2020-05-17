@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/justsso/Algorithms-and-Data-Structures#readme",
   "devDependencies": {
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "create-next-app": "^9.4.1"
   }
 }
