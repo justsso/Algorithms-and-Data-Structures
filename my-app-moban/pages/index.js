@@ -7,28 +7,32 @@ import {getAllPosts} from '../lib/api'
 import Head from 'next/head'
 import {CMS_NAME} from '../lib/constants'
 
-export default function Index({allPosts}) {
-    const heroPost = allPosts[0]
-    const morePosts = allPosts.slice(1)
+export default function Index({posts1, posts2}) {
+    // const heroPost = allPosts[0]
+    const heroPost = null;
+    // const morePosts = allPosts.slice(1)
+    const morePosts = posts1;
+    const leetcodes = posts2;
     return (
         <>
             <Layout>
-                <Head>
-                    <title>Next.js Blog Example with {CMS_NAME}</title>
-                </Head>
+                {/*<Head>*/}
+                {/*    <title>Next.js Blog Example with {CMS_NAME}</title>*/}
+                {/*</Head>*/}
                 <Container>
                     <Intro/>
-                    {heroPost && (
-                        <HeroPost
-                            title={heroPost.title}
-                            coverImage={heroPost.coverImage}
-                            date={heroPost.date}
-                            author={heroPost.author}
-                            slug={heroPost.slug}
-                            excerpt={heroPost.excerpt}
-                        />
-                    )}
+                    {/*{heroPost && (*/}
+                    {/*    <HeroPost*/}
+                    {/*        title={heroPost.title}*/}
+                    {/*        coverImage={heroPost.coverImage}*/}
+                    {/*        date={heroPost.date}*/}
+                    {/*        author={heroPost.author}*/}
+                    {/*        slug={heroPost.slug}*/}
+                    {/*        excerpt={heroPost.excerpt}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                     {morePosts.length > 0 && <MoreStories posts={morePosts}/>}
+                    {leetcodes.length > 0 && <MoreStories posts={leetcodes}/>}
                 </Container>
             </Layout>
         </>
@@ -36,7 +40,7 @@ export default function Index({allPosts}) {
 }
 
 export async function getStaticProps() {
-    const allPosts = getAllPosts([
+    const {posts1, posts2} = getAllPosts([
         'title',
         'date',
         'slug',
@@ -46,6 +50,6 @@ export async function getStaticProps() {
     ])
 
     return {
-        props: {allPosts},
+        props: { posts1, posts2  }
     }
 }
