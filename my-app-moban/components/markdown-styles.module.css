@@ -1,5 +1,7 @@
 .markdown {
   @apply text-lg leading-relaxed;
+  @apply font-serif;
+  @apply text-gray-800;
 }
 
 .markdown p,
@@ -15,4 +17,7 @@
 
 .markdown h3 {
   @apply text-2xl mt-8 mb-4 leading-snug;
+}
+.markdown pre {
+  @apply text-sm tracking-wide;
 }
