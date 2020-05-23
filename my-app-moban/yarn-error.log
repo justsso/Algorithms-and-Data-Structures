@@ -1,0 +1,52 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add date-fns
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Library/Apple/usr/bin:/Users/ssojust/gitproject/Algorithms-and-Data-Structures/node_modules/.bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  10.16.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/Users/ssojust/Library/Caches/Yarn/v6/npm-binary-extensions-2.0.0-23c0df14f6a88077f5f986c0d167ec03c3d5537c-integrity/node_modules/binary-extensions/binary-extensions.json' -> '/Users/ssojust/gitproject/Algorithms-and-Data-Structures/my-app-moban/node_modules/fork-ts-checker-webpack-plugin/node_modules/binary-extensions/binary-extensions.json'
+
+npm manifest: 
+  {
+    "name": "blog-starter",
+    "version": "1.0.0",
+    "scripts": {
+      "dev-blog": "next",
+      "build": "next build",
+      "start": "next start",
+      "export": "next export",
+      "my_pm2": "pm2 start npm -- start"
+    },
+    "dependencies": {
+      "classnames": "2.2.6",
+      "date-fns": "2.10.0",
+      "gray-matter": "4.0.2",
+      "next": "latest",
+      "react": "^16.13.0",
+      "react-dom": "^16.13.0",
+      "remark": "11.0.2",
+      "remark-html": "10.0.0"
+    },
+    "devDependencies": {
+      "dotenv": "8.2.0",
+      "highlight.js": "^10.0.3",
+      "postcss-preset-env": "^6.7.0",
+      "tailwindcss": "^1.4.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

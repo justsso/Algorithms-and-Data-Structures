@@ -5,13 +5,15 @@
     "dev-blog": "next",
     "build": "next build",
     "start": "next start",
-    "export": "next export"
+    "export": "next export",
+    "my_pm2": "pm2 start --name algorithms npm -- start"
   },
   "dependencies": {
     "classnames": "2.2.6",
-    "date-fns": "2.10.0",
+    "date-fns": "^2.14.0",
     "gray-matter": "4.0.2",
     "next": "latest",
+    "pm2": "^4.4.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "remark": "11.0.2",
