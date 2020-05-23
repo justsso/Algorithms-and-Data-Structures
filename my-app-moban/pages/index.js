@@ -44,7 +44,22 @@ export default function Index({posts1, posts2}) {
     )
 }
 
-export async function getStaticProps() {
+// 静态渲染，可做cdn
+// export async function getStaticProps() {
+//     console.log('getStaticProps')
+//     const {posts1, posts2} = getAllPosts([
+//         'date',
+//         'slug',
+//     ])
+//
+//     return {
+//         props: { posts2  }
+//     }
+// }
+
+//服务端渲染，不可做cdn
+export async function getServerSideProps(context) {
+    console.log('getServerSideProps')
     const {posts1, posts2} = getAllPosts([
         'date',
         'slug',
