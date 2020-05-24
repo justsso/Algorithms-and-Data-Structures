@@ -57,11 +57,11 @@ D.right = E
 G.right = I
 I.left = H
 
-let at = preorderTraversal(one)
-let a = preorderTraversal(F);
+// let at = preorderTraversal(one)
+// let a = preorderTraversal(F);
 // let a = preorderTraversal(null)
-console.log(at)
-console.log(a)
+// console.log(at)
+// console.log(a)
 
 //迭代写法
 /**
@@ -83,5 +83,6 @@ function preorderTraversal2(root) {
     return result
 }
 
-console.log(preorderTraversal2(one))
-console.log(preorderTraversal2(F))
+// console.log(preorderTraversal2(one))
+// console.log(preorderTraversal2(F))
+module.exports = preorderTraversal2

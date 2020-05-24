@@ -82,3 +82,4 @@ two.right = seven
 
 console.log(levelOrder2(three))
 console.log(levelOrder(null))
+module.exports = levelOrder
