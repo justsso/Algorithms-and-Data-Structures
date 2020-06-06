@@ -44,8 +44,30 @@ function Node(val, left, right, next) {
 let connect1 = function (root) {
     if (!root) return root
 
+    let quene = []
+    quene.push(root)
+
+    while(quene.length > 0){
+      let size = quene.length
+
+      for(let i = 0;i< size; i++){
+          let node = quene.shift()
+          if(i === size-1){
+            node.next = null
+          }else{
+            node.next = quene[0]
+          }
+
+          if(node.left){
+            quene.push(node.left)
+          }
+          if(node.right){
+            quene.push(node.right)
+          }
+
+      }
+    }
+
     return root
 }
 
-
-//方法二： while迭代法

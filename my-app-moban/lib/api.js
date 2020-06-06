@@ -42,7 +42,8 @@ export function getPostBySlug(slug, fields = []) {
 
             if (data[field] === 'date') {
                 let stat = fs.statSync()
-                items[field] = data[field]
+                // items[field] = data[field]
+                items[field] = `${stat.birthtime.getFullYear()} / ${stat.birthtime.getMonth()+1} / ${stat.birthtime.getDate()}`
             }
         })
     } else if (suffix === '.js') {
@@ -58,7 +59,8 @@ export function getPostBySlug(slug, fields = []) {
                 items[field] = highlightedCode
             }
             if(field === 'date') {
-                items[field] = stat.birthtime.getTime()
+                // items[field] = stat.birthtime.getTime()
+                items[field] = `${stat.birthtime.getFullYear()} / ${stat.birthtime.getMonth()+1} / ${stat.birthtime.getDate()}`
             }
         })
 
