@@ -13,7 +13,7 @@ var twoSum = function (nums, target) {
 };
 let nums = [3, 2, 4], target = 6
 let r = twoSum(nums, target)
-// console.log(r)
+console.log(r)
 
 //find  findIndex接收的参数都是回调函数，所有数组成员依次执行该回调函数，直到找出第一个返回值为true的值，然后返回该成员或者该成员的位置。如果没有符合条件的成员，返回Undefined
 // 回调函数有三个参数，当前值，
@@ -57,4 +57,4 @@ let twoSum2 = function (nums, target) {
     }
 }
 
-console.log(twoSum2(nums, target))
+// console.log(twoSum2(nums, target))
