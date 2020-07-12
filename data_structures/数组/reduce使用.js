@@ -36,10 +36,6 @@ let arr2 = [
         n: 'ac'
     }
 ]
-// 给arr2排序，按照n 排序
-// arr2.sort(())
-console.log('abc' < 'ac')
-
 let obj = {
     name: 'jsy',
     age : 15
@@ -59,3 +55,29 @@ let flatten = [[0,1],[2,3],[4,5]].reduce((accu, curent) => {
     return accu.concat(curent)
 }, [])
 console.log(flatten)
+
+
+let arr3 = [1,2,,3]
+let resultArr ;
+resultArr=
+arr3.map((item, index, array) => {
+    return item + array.length
+})
+console.log(resultArr, resultArr.length)
+
+Object.defineProperty(Array.prototype, 'reduce', {
+    value: function(callback, initialValue){
+        if(this === null){
+        throw new TypeError('Array.prototype.reduce called on Null or Undefined')
+        }
+
+        if(typeof callback !== 'function'){
+            throw new TypeError(callback+ 'is not a function')
+        }
+
+        let o = Object(this)
+        console.log(o, this)
+
+    }
+})
+
