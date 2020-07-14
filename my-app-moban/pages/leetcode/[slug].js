@@ -14,7 +14,7 @@ import Intro from "../../components/intro";
 
 export default function Post({post, morePosts, preview}) {
     const router = useRouter()
-    console.log(router.query, 'router.query')
+    console.log(router.query, 'router.query17')
     if (!router.isFallback && !post?.slug) {
         return <ErrorPage statusCode={404}/>
     }
@@ -22,7 +22,7 @@ export default function Post({post, morePosts, preview}) {
         <Layout preview={preview}>
             <Container>
                 {/*<Header/>*/}
-                <Intro />
+                <Intro/>
 
                 {router.isFallback ? (
                     <PostTitle>Loading…</PostTitle>
@@ -31,7 +31,7 @@ export default function Post({post, morePosts, preview}) {
                         <article className="mb-32">
                             <Head>
                                 <title>
-                                    { post.slug} | Next.js Blog Example with {CMS_NAME}
+                                    {post.slug} | Next.js Blog Example with {CMS_NAME}
                                 </title>
                                 {post.omImage && <meta property="og:image" content={post.ogImage.url}/>}
                             </Head>
@@ -49,8 +49,8 @@ export default function Post({post, morePosts, preview}) {
 }
 
 export async function getStaticProps({params}) {
-    console.log(params, 'params')
-    const post = getPostBySlug(params.slug, [
+    console.log(params, 'params52')
+    const post = getPostBySlug(decodeURI(params.slug), [
         'date',
         'slug',
         'content',
