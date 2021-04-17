@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/><link rel="manifest" href="/favicon/site.webmanifest"/><link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#000000"/><link rel="shortcut icon" href="/favicon/favicon.ico"/><meta name="msapplication-TileColor" content="#000000"/><meta name="msapplication-config" content="/favicon/browserconfig.xml"/><meta name="theme-color" content="#000"/><link rel="alternate" type="application/rss+xml" href="/feed.xml"/><meta name="description" content="A statically generated blog example using Next.js and Markdown."/><meta property="og:image" content="https://og-image.now.sh/Next.js%20Blog%20Starter%20Example.png?theme=light&amp;md=1&amp;fontSize=100px&amp;images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg"/><title>116.填充每个节点的下一个右侧节点指针.js | Next.js Blog Example with Markdown</title><meta name="next-head-count" content="15"/><link rel="preload" href="/_next/static/css/caa0743884ed3c582710.css" as="style"/><link rel="stylesheet" href="/_next/static/css/caa0743884ed3c582710.css"/><link rel="preload" href="/_next/static/css/5f2b43ec3e132ba48013.css" as="style"/><link rel="stylesheet" href="/_next/static/css/5f2b43ec3e132ba48013.css"/><link rel="preload" href="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/_app.js" as="script"/><link rel="preload" href="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/leetcode/%5Bslug%5D.js" as="script"/><link rel="preload" href="/_next/static/runtime/webpack-c212667a5f965e81e004.js" as="script"/><link rel="preload" href="/_next/static/chunks/framework.e84fa698c7ee940652bd.js" as="script"/><link rel="preload" href="/_next/static/chunks/commons.ceeeee915f5ebe162cf6.js" as="script"/><link rel="preload" href="/_next/static/runtime/main-2d0e0ec422dc1daf32e9.js" as="script"/><link rel="preload" href="/_next/static/chunks/7044f820306bd58a729f9022770285ba51ab18bf.7835bc517feeeb1028d6.js" as="script"/></head><body><div id="__next"><div class="min-h-screen"><div class="border-b bg-accent-1 border-accent-2"><div class="container mx-auto px-5"><div class="py-2 text-center text-sm">The source code for this blog is<!-- --> <a href="https://github.com/justsso/Algorithms-and-Data-Structures.git" class="underline hover:text-success duration-200 transition-colors">available on GitHub</a>.</div></div></div><main><div class="container mx-auto px-5"><section class="flex-col md:flex-row flex items-center md:justify-between mt-8 mb-8 md:mb-8 font-serif"><h3 class="text-6xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-8 text-green-600">LeetCode</h3><h4 class="text-center md:text-left text-lg mt-5 md:pl-8">leetcode刷题代码，解题思路写在注释中</h4></section><article class="mb-32"><h3 class="text-lg md:text-xl lg:text-xl font-serif  antialiased tracking-tighter leading-tight md:leading-none mb-6 text-center md:text-left">116.填充每个节点的下一个右侧节点指针.js</h3><div class="max-w-2xl"><div class="mb-6 text-lg font-serif  antialiased text-sm"><time dateTime="2021 / 3 / 1">2021-03-01</time></div></div><div class="max-w-6xl mx-auto"><div class="markdown-styles_markdown__1x9gM"><pre> <code class="hljs" ><span class="hljs-comment">/**
+ * // Definition for a Node.
+ *  */</span>
+function <span class="hljs-type">Node</span>(val, <span class="hljs-keyword">left</span>, <span class="hljs-keyword">right</span>, next) {
+    this.val = val === undefined ? null : val;
+    this.<span class="hljs-keyword">left</span> = <span class="hljs-keyword">left</span> === undefined ? null : <span class="hljs-keyword">left</span>;
+    this.<span class="hljs-keyword">right</span> = <span class="hljs-keyword">right</span> === undefined ? null : <span class="hljs-keyword">right</span>;
+    this.next = next === undefined ? null : next;
+};
+
+<span class="hljs-comment">//while 迭代法</span>
+<span class="hljs-comment">/**
+ * @param {Node} root
+ * @return {Node}
+ */</span>
+<span class="hljs-keyword">var</span> connect = function (root) {
+
+    <span class="hljs-comment">//因为是完美二叉树，所以没有子孩子的是最后一层树</span>
+    <span class="hljs-comment">//递归的把每一层传入函数</span>
+
+    <span class="hljs-comment">//遍历每一层的最左边的节点，要看自己这一层有没有next，要看上一层的父节点有没有next</span>
+    <span class="hljs-comment">//由于子节点没有指向父节点的指针，所以传入父节点</span>
+
+
+    <span class="hljs-keyword">if</span> (!root) <span class="hljs-keyword">return</span> root
+
+    <span class="hljs-keyword">let</span> line = root;
+  
+    <span class="hljs-keyword">while</span> (line) {
+        <span class="hljs-keyword">let</span> <span class="hljs-type">Left</span> = line.<span class="hljs-keyword">left</span>  <span class="hljs-comment">//下一层的头</span>
+
+        <span class="hljs-keyword">let</span> head = line;
+        <span class="hljs-keyword">while</span> (head){
+            <span class="hljs-keyword">if</span> (head.<span class="hljs-keyword">left</span> &amp;&amp; head.<span class="hljs-keyword">right</span>) {
+                head.<span class="hljs-keyword">left</span>.next = head.<span class="hljs-keyword">right</span>
+            }
+
+            <span class="hljs-keyword">if</span> (head.next &amp;&amp; head.<span class="hljs-keyword">right</span>) {   <span class="hljs-comment">//因为已知是完美二叉树</span>
+                head.<span class="hljs-keyword">right</span>.next = head.next.<span class="hljs-keyword">left</span> <span class="hljs-comment">//建立连接</span>
+            }
+            head = head.next
+        }
+        line = <span class="hljs-type">Left</span>;
+    }
+    <span class="hljs-keyword">return</span> root;
+
+};
+
+<span class="hljs-keyword">let</span> one = new <span class="hljs-type">Node</span>(<span class="hljs-number">1</span>);
+<span class="hljs-keyword">let</span> two = new <span class="hljs-type">Node</span>(<span class="hljs-number">2</span>);
+<span class="hljs-keyword">let</span> three = new <span class="hljs-type">Node</span>(<span class="hljs-number">3</span>);
+<span class="hljs-keyword">let</span> four = new <span class="hljs-type">Node</span>(<span class="hljs-number">4</span>);
+<span class="hljs-keyword">let</span> five = new <span class="hljs-type">Node</span>(<span class="hljs-number">5</span>);
+<span class="hljs-keyword">let</span> six = new <span class="hljs-type">Node</span>(<span class="hljs-number">6</span>);
+<span class="hljs-keyword">let</span> seven = new <span class="hljs-type">Node</span>(<span class="hljs-number">7</span>);
+one.<span class="hljs-keyword">left</span> = two
+one.<span class="hljs-keyword">right</span> = three
+two.<span class="hljs-keyword">left</span> = four
+two.<span class="hljs-keyword">right</span> = five
+three.<span class="hljs-keyword">left</span> = six
+three.<span class="hljs-keyword">right</span> = seven
+
+
+<span class="hljs-comment">// let result = connect(one)</span>
+<span class="hljs-comment">// console.log(JSON.stringify(result, '', 4))</span>
+
+<span class="hljs-comment">//测试： [-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13]</span>
+
+<span class="hljs-comment">//广度优先遍历 法，利用队列记录每一层的节点</span>
+<span class="hljs-keyword">let</span> connect2 = function (root){
+    <span class="hljs-keyword">if</span>(!root) <span class="hljs-keyword">return</span> root
+    <span class="hljs-keyword">let</span> queue = []
+
+    queue.push(root)
+
+    <span class="hljs-keyword">while</span>(queue.length){
+        <span class="hljs-keyword">let</span> len = queue.length
+
+        <span class="hljs-comment">//一层</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i&lt; len; i++){
+            <span class="hljs-keyword">let</span> node = queue.shift()
+            <span class="hljs-keyword">if</span>(i === len -<span class="hljs-number">1</span>){    <span class="hljs-comment">//达到这一层的结尾</span>
+               node.next = null
+            }<span class="hljs-keyword">else</span> {
+                node.next = queue[<span class="hljs-number">0</span>]     <span class="hljs-comment">//同一层的节点保持关系</span>
+            }
+            
+            <span class="hljs-keyword">if</span>(node.<span class="hljs-keyword">left</span>){
+                queue.push(node.<span class="hljs-keyword">left</span>)
+            } 
+            <span class="hljs-keyword">if</span>(node.<span class="hljs-keyword">right</span>){
+                queue.push(node.<span class="hljs-keyword">right</span>)
+            }
+        }
+
+    }
+    <span class="hljs-keyword">return</span> root
+}
+
+<span class="hljs-keyword">let</span> result2 = connect2(one);
+
+console.log(<span class="hljs-type">JSON</span>.stringify(result2, '', <span class="hljs-number">4</span>))
+
+<span class="hljs-comment">//递归写法，将两棵树连接</span>
+
+<span class="hljs-keyword">let</span> connect3 = function (root){
+    <span class="hljs-keyword">if</span>(!root) <span class="hljs-keyword">return</span> root
+
+    help(root.<span class="hljs-keyword">left</span>, root.<span class="hljs-keyword">right</span>)
+    <span class="hljs-keyword">return</span> root;
+
+    function help(<span class="hljs-keyword">left</span>, <span class="hljs-keyword">right</span>){
+        <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">left</span> || !<span class="hljs-keyword">right</span>) <span class="hljs-keyword">return</span> ;
+
+        <span class="hljs-keyword">left</span>.next = <span class="hljs-keyword">right</span>
+        help(<span class="hljs-keyword">left</span>.<span class="hljs-keyword">left</span>,<span class="hljs-keyword">left</span>.<span class="hljs-keyword">right</span>) <span class="hljs-comment">//因为已知是完美二叉树了，所以一定有右节点 </span>
+        help(<span class="hljs-keyword">left</span>.<span class="hljs-keyword">right</span>,<span class="hljs-keyword">right</span>.<span class="hljs-keyword">left</span>)  <span class="hljs-comment">//同上，已知完美二叉树</span>
+        help(<span class="hljs-keyword">right</span>.<span class="hljs-keyword">left</span>, <span class="hljs-keyword">right</span>.<span class="hljs-keyword">right</span>)  <span class="hljs-comment">//同上，已知完美二叉树</span>
+    }
+}
+
+</code> </pre></div></div></article></div></main></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"post":{"date":"2021 / 3 / 1","slug":"116.填充每个节点的下一个右侧节点指针.js","content":"\u003cpre\u003e \u003ccode class=\"hljs\" \u003e\u003cspan class=\"hljs-comment\"\u003e/**\n * // Definition for a Node.\n *  */\u003c/span\u003e\nfunction \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(val, \u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e, next) {\n    this.val = val === undefined ? null : val;\n    this.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e = \u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e === undefined ? null : \u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e;\n    this.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e = \u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e === undefined ? null : \u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e;\n    this.next = next === undefined ? null : next;\n};\n\n\u003cspan class=\"hljs-comment\"\u003e//while 迭代法\u003c/span\u003e\n\u003cspan class=\"hljs-comment\"\u003e/**\n * @param {Node} root\n * @return {Node}\n */\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003evar\u003c/span\u003e connect = function (root) {\n\n    \u003cspan class=\"hljs-comment\"\u003e//因为是完美二叉树，所以没有子孩子的是最后一层树\u003c/span\u003e\n    \u003cspan class=\"hljs-comment\"\u003e//递归的把每一层传入函数\u003c/span\u003e\n\n    \u003cspan class=\"hljs-comment\"\u003e//遍历每一层的最左边的节点，要看自己这一层有没有next，要看上一层的父节点有没有next\u003c/span\u003e\n    \u003cspan class=\"hljs-comment\"\u003e//由于子节点没有指向父节点的指针，所以传入父节点\u003c/span\u003e\n\n\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!root) \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e root\n\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e line = root;\n  \n    \u003cspan class=\"hljs-keyword\"\u003ewhile\u003c/span\u003e (line) {\n        \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003eLeft\u003c/span\u003e = line.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e  \u003cspan class=\"hljs-comment\"\u003e//下一层的头\u003c/span\u003e\n\n        \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e head = line;\n        \u003cspan class=\"hljs-keyword\"\u003ewhile\u003c/span\u003e (head){\n            \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (head.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e \u0026amp;\u0026amp; head.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e) {\n                head.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e.next = head.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e\n            }\n\n            \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (head.next \u0026amp;\u0026amp; head.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e) {   \u003cspan class=\"hljs-comment\"\u003e//因为已知是完美二叉树\u003c/span\u003e\n                head.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e.next = head.next.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e \u003cspan class=\"hljs-comment\"\u003e//建立连接\u003c/span\u003e\n            }\n            head = head.next\n        }\n        line = \u003cspan class=\"hljs-type\"\u003eLeft\u003c/span\u003e;\n    }\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e root;\n\n};\n\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e one = new \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(\u003cspan class=\"hljs-number\"\u003e1\u003c/span\u003e);\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e two = new \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(\u003cspan class=\"hljs-number\"\u003e2\u003c/span\u003e);\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e three = new \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(\u003cspan class=\"hljs-number\"\u003e3\u003c/span\u003e);\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e four = new \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(\u003cspan class=\"hljs-number\"\u003e4\u003c/span\u003e);\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e five = new \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(\u003cspan class=\"hljs-number\"\u003e5\u003c/span\u003e);\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e six = new \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(\u003cspan class=\"hljs-number\"\u003e6\u003c/span\u003e);\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e seven = new \u003cspan class=\"hljs-type\"\u003eNode\u003c/span\u003e(\u003cspan class=\"hljs-number\"\u003e7\u003c/span\u003e);\none.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e = two\none.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e = three\ntwo.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e = four\ntwo.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e = five\nthree.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e = six\nthree.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e = seven\n\n\n\u003cspan class=\"hljs-comment\"\u003e// let result = connect(one)\u003c/span\u003e\n\u003cspan class=\"hljs-comment\"\u003e// console.log(JSON.stringify(result, '', 4))\u003c/span\u003e\n\n\u003cspan class=\"hljs-comment\"\u003e//测试： [-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13]\u003c/span\u003e\n\n\u003cspan class=\"hljs-comment\"\u003e//广度优先遍历 法，利用队列记录每一层的节点\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e connect2 = function (root){\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e(!root) \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e root\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e queue = []\n\n    queue.push(root)\n\n    \u003cspan class=\"hljs-keyword\"\u003ewhile\u003c/span\u003e(queue.length){\n        \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e len = queue.length\n\n        \u003cspan class=\"hljs-comment\"\u003e//一层\u003c/span\u003e\n        \u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e(\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e i = \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e; i\u0026lt; len; i++){\n            \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e node = queue.shift()\n            \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e(i === len -\u003cspan class=\"hljs-number\"\u003e1\u003c/span\u003e){    \u003cspan class=\"hljs-comment\"\u003e//达到这一层的结尾\u003c/span\u003e\n               node.next = null\n            }\u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n                node.next = queue[\u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e]     \u003cspan class=\"hljs-comment\"\u003e//同一层的节点保持关系\u003c/span\u003e\n            }\n            \n            \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e(node.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e){\n                queue.push(node.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e)\n            } \n            \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e(node.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e){\n                queue.push(node.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e)\n            }\n        }\n\n    }\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e root\n}\n\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e result2 = connect2(one);\n\nconsole.log(\u003cspan class=\"hljs-type\"\u003eJSON\u003c/span\u003e.stringify(result2, '', \u003cspan class=\"hljs-number\"\u003e4\u003c/span\u003e))\n\n\u003cspan class=\"hljs-comment\"\u003e//递归写法，将两棵树连接\u003c/span\u003e\n\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e connect3 = function (root){\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e(!root) \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e root\n\n    help(root.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e, root.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e)\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e root;\n\n    function help(\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e){\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e(!\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e || !\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e) \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e ;\n\n        \u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e.next = \u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e\n        help(\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e,\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e) \u003cspan class=\"hljs-comment\"\u003e//因为已知是完美二叉树了，所以一定有右节点 \u003c/span\u003e\n        help(\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e,\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e)  \u003cspan class=\"hljs-comment\"\u003e//同上，已知完美二叉树\u003c/span\u003e\n        help(\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003eleft\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003eright\u003c/span\u003e)  \u003cspan class=\"hljs-comment\"\u003e//同上，已知完美二叉树\u003c/span\u003e\n    }\n}\n\n\u003c/code\u003e \u003c/pre\u003e"}},"__N_SSG":true},"page":"/leetcode/[slug]","query":{"slug":"116.填充每个节点的下一个右侧节点指针.js"},"buildId":"l6GsR6YTH6JoCyLeLD2pY","nextExport":false,"isFallback":false,"gsp":true}</script><script nomodule="" src="/_next/static/runtime/polyfills-b10afcedf826ebd862ad.js"></script><script async="" data-next-page="/_app" src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/_app.js"></script><script async="" data-next-page="/leetcode/[slug]" src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/leetcode/%5Bslug%5D.js"></script><script src="/_next/static/runtime/webpack-c212667a5f965e81e004.js" async=""></script><script src="/_next/static/chunks/framework.e84fa698c7ee940652bd.js" async=""></script><script src="/_next/static/chunks/commons.ceeeee915f5ebe162cf6.js" async=""></script><script src="/_next/static/runtime/main-2d0e0ec422dc1daf32e9.js" async=""></script><script src="/_next/static/chunks/7044f820306bd58a729f9022770285ba51ab18bf.7835bc517feeeb1028d6.js" async=""></script><script src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/_buildManifest.js" async=""></script><script src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/_ssgManifest.js" async=""></script></body></html>

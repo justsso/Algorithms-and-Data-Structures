@@ -3,7 +3,7 @@ import {join} from 'path'
 import matter from 'gray-matter'
 
 const hljs = require('highlight.js');
-const data_struturesDirectory = join(process.cwd(), '../data_structures')
+const data_struturesDirectory = join(process.cwd(), '../data_structures/')
 const leetcode_jsDirectory = join(process.cwd(), '../leetcode_js/')
 
 //返回两类
@@ -71,7 +71,7 @@ export function getPostBySlug(slug, fields = []) {
 
 export function getAllPosts(fields = []) {
     const {data_strutures, leetcode} = getPostSlugs()
-    // console.log(data_strutures, leetcode, 68)
+    console.log(data_strutures, leetcode, 68)
     // const posts1 = data_strutures
     //     .map(slug => getPostBySlug(slug, fields))
     //     // sort leetcode by date in descending order

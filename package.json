@@ -18,5 +18,8 @@
   "homepage": "https://github.com/justsso/Algorithms-and-Data-Structures#readme",
   "devDependencies": {
     "create-next-app": "^9.4.1"
+  },
+  "dependencies": {
+    "glob": "^7.1.6"
   }
 }

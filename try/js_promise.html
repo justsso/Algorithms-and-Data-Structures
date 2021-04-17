@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript promise</title>
+</head>
+<body>
+<script>
+  // function promise1() {
+  //   return new Promise((resolve) => {
+  //     console.log('promise1');
+  //     resolve('1')
+  //   })
+  //
+  // }
+  //
+  // function promise2(){
+  //   return new Promise((resolve, reject) => {
+  //     reject("error")
+  //   })
+  // }
+
+  // promise1().then(res => {
+  //   console.log((res))
+  // }).catch(err => {console.log(err)})
+  //
+  // promise2().then(res => {
+  //   console.log((res))
+  // }).catch(err => {console.log(err)})
+  // promise1
+  // 1
+  // error
+
+  // function runAsync (x) {
+  //   const p = new Promise(r => setTimeout(() => r(x, console.log(x)), 1000))
+  //     return p;
+  // }
+
+  /*
+  async function testSometing() {
+      console.log("执行testSometing");
+      return "testSometing";
+  }
+
+  async function testAsync() {
+      console.log("执行testAsync");
+      return Promise.resolve("hello async");
+  }
+
+  async function test() {
+      console.log("test start...");
+      const v1 = await testSometing();
+      console.log(v1);
+      const v2 = await testAsync();
+      console.log(v2);
+      console.log(v1, v2);
+  }
+
+  test();
+
+  var promise = new Promise(resolve => {
+      console.log("promise start...");
+      resolve("promise");
+  });
+  promise.then(val => console.log(val));
+
+  console.log("test end...");
+
+*/
+/*
+  const async1 = async () => {
+      console.log('async1');
+      setTimeout(() => {
+          console.log('timer1')
+      }, 2000)
+      await new Promise(resolve => {
+          console.log('promise1')
+      })
+      console.log('async1 end')
+      return 'async1 success'
+  }
+  console.log('script start');
+  async1().then(res => console.log(res));
+  console.log('script end');
+  Promise.resolve(1)
+      .then(2)
+      .then(Promise.resolve(3))
+      .catch(4)
+      .then(res => console.log(res))
+  setTimeout(() => {
+      console.log('timer2')
+  }, 1000)
+*/
+
+  /*
+  * 使用Promise实现每隔1秒输出1,2,3s
+  *
+  * */
+
+  function LogNum(n){
+      return new Promise(resolve => {
+          setTimeout(() => {
+              console.log(n);
+              resolve()
+          }, 1000)
+      })
+  }
+
+  // [1,2,3].reduce((all, item) => {
+  //    return all.then(() => LogNum(item))
+  // }, Promise.resolve())
+// LogNum(1).then(() => LogNum(2))
+
+  // const arr = [1,2,3];
+  // let c = arr.reduce((p, x) => {
+  //    return p.then(() => {
+  //         return new Promise(r => {
+  //             setTimeout(() => r(console.log(x)), 1000)
+  //         })
+  //     })
+  // }, Promise.resolve())
+  // console.log(c)
+
+  /*
+  const arr = [1,2,3];
+  arr.reduce((p, x) => p.then(() => new Promise(r => setTimeout(() => {console.log(x), r()}, 1000))), Promise.resolve())
+*/
+
+  /*
+  使用Promise实现红绿灯交替重复亮，红灯3秒亮一次，黄灯2s 绿灯1s 让三个灯被不断交替重复亮灯
+  * */
+
+//   function red(){
+//       console.log("red")
+//   }
+//   function green(){
+//       console.log("green")
+//   }
+//   function yellow(){
+//       console.log("yellow")
+//   }
+//   //多少时间之后亮哪个灯
+// function Light(timer, color){
+//     return new Promise(resolve => {
+//         setTimeout(() => {
+//             color()
+//             resolve()
+//         }, timer)
+//     })
+// }
+//
+// function cycleLight(){
+//       Light(3000, red).
+// }
+//
+// cycleLight()
+
+  function red() {
+      console.log("red");
+  }
+  function green() {
+      console.log("green");
+  }
+  function yellow() {
+      console.log("yellow");
+  }
+  const light = function (timer, cb) {
+      return new Promise(resolve => {
+          setTimeout(() => {
+              cb()
+              resolve()
+          }, timer)
+      })
+  }
+ const step = () => {
+      Promise.resolve().then(() => {
+         return light(3000, red)
+      }).then(() => {
+          return light(2000, yellow)
+      }).then(() => {
+          return light(1000, green)
+      }).then(() => {
+          return step()
+      })
+ }
+
+ // step();
+
+  /*
+  * 红绿灯，红灯亮3s  绿灯亮1s 黄灯亮2s
+  * */
+  function cycleLight(){
+      return Promise.resolve().then(() => light(3000, green).then(() => light(1000, yellow)).then(() => light(2000, red)).then(() => {cycleLight()}))
+  }
+    // cycleLight()
+
+  /*
+ 实现mergePromise函数
+ * */
+
+  const time = (timer) => {
+      return new Promise(resolve => {
+          setTimeout(() => {
+              resolve()
+          }, timer)
+      })
+  }
+
+
+  const ajax1 = () => time(2000).then(() => {
+      console.log(1);
+      return 1
+  })
+  const ajax2 = () => time(1000).then(() => {
+      console.log(2);
+      return 2
+  })
+  const ajax3 = () => time(1000).then(() => {
+      console.log(3);
+      return 3
+  })
+
+
+  function mergePromise(arr){
+      const data = []
+      let p = Promise.resolve()
+      for (let i = 0; i < arr.length; i++) {
+          p = p.then(() => arr[i]()).then(result => {
+              data.push(result);
+              return data
+          })
+      }
+      return p
+  }
+
+  mergePromise([ajax1, ajax2, ajax3]).then(data => {
+      console.log("done")
+      console.log(data)
+  })
+
+</script>
+</body>
+</html>

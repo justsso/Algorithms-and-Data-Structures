@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/><link rel="manifest" href="/favicon/site.webmanifest"/><link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#000000"/><link rel="shortcut icon" href="/favicon/favicon.ico"/><meta name="msapplication-TileColor" content="#000000"/><meta name="msapplication-config" content="/favicon/browserconfig.xml"/><meta name="theme-color" content="#000"/><link rel="alternate" type="application/rss+xml" href="/feed.xml"/><meta name="description" content="A statically generated blog example using Next.js and Markdown."/><meta property="og:image" content="https://og-image.now.sh/Next.js%20Blog%20Starter%20Example.png?theme=light&amp;md=1&amp;fontSize=100px&amp;images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg"/><title>112.路径总和.js | Next.js Blog Example with Markdown</title><meta name="next-head-count" content="15"/><link rel="preload" href="/_next/static/css/caa0743884ed3c582710.css" as="style"/><link rel="stylesheet" href="/_next/static/css/caa0743884ed3c582710.css"/><link rel="preload" href="/_next/static/css/5f2b43ec3e132ba48013.css" as="style"/><link rel="stylesheet" href="/_next/static/css/5f2b43ec3e132ba48013.css"/><link rel="preload" href="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/_app.js" as="script"/><link rel="preload" href="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/leetcode/%5Bslug%5D.js" as="script"/><link rel="preload" href="/_next/static/runtime/webpack-c212667a5f965e81e004.js" as="script"/><link rel="preload" href="/_next/static/chunks/framework.e84fa698c7ee940652bd.js" as="script"/><link rel="preload" href="/_next/static/chunks/commons.ceeeee915f5ebe162cf6.js" as="script"/><link rel="preload" href="/_next/static/runtime/main-2d0e0ec422dc1daf32e9.js" as="script"/><link rel="preload" href="/_next/static/chunks/7044f820306bd58a729f9022770285ba51ab18bf.7835bc517feeeb1028d6.js" as="script"/></head><body><div id="__next"><div class="min-h-screen"><div class="border-b bg-accent-1 border-accent-2"><div class="container mx-auto px-5"><div class="py-2 text-center text-sm">The source code for this blog is<!-- --> <a href="https://github.com/justsso/Algorithms-and-Data-Structures.git" class="underline hover:text-success duration-200 transition-colors">available on GitHub</a>.</div></div></div><main><div class="container mx-auto px-5"><section class="flex-col md:flex-row flex items-center md:justify-between mt-8 mb-8 md:mb-8 font-serif"><h3 class="text-6xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-8 text-green-600">LeetCode</h3><h4 class="text-center md:text-left text-lg mt-5 md:pl-8">leetcode刷题代码，解题思路写在注释中</h4></section><article class="mb-32"><h3 class="text-lg md:text-xl lg:text-xl font-serif  antialiased tracking-tighter leading-tight md:leading-none mb-6 text-center md:text-left">112.路径总和.js</h3><div class="max-w-2xl"><div class="mb-6 text-lg font-serif  antialiased text-sm"><time dateTime="2021 / 3 / 1">2021-03-01</time></div></div><div class="max-w-6xl mx-auto"><div class="markdown-styles_markdown__1x9gM"><pre> <code class="hljs" ><span class="hljs-comment">/*
+给定一个二叉树和一个目标和，判断该树中是否存在从根结点到叶子结点的路径，这条路径上所有结点值相加等于目标和。
+说明: 叶子节点是指没有子节点的节点。
+思路：一个树从根结点到叶子结点的所有路径是确定的，所以用迭代的方式找到所有的路径，在找到一条路径所有结点相加等于目标和就停止查找。
+有几个叶子结点就有几条路径
+*/</span>
+
+
+<span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-keyword">function</span> <span class="hljs-constructor">TreeNode(<span class="hljs-params">val</span>)</span> {
+    this.<span class="hljs-keyword">val</span> = <span class="hljs-keyword">val</span>;
+    this.left = this.right = null;
+}
+
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {boolean}
+ */</span>
+<span class="hljs-comment">// 思路：利用递归，判断到叶子结点，判断传入的sum是否和叶子结点的val相等</span>
+var hasPathSum = <span class="hljs-keyword">function</span> (root, sum) {
+    <span class="hljs-keyword">if</span> (!root) return <span class="hljs-literal">false</span>
+
+    <span class="hljs-keyword">if</span> (!root.left<span class="hljs-operator"> &amp;&amp; </span>!root.right) {
+        return root.<span class="hljs-keyword">val</span><span class="hljs-operator"> === </span>sum
+    }
+
+    return has<span class="hljs-constructor">PathSum(<span class="hljs-params">root</span>.<span class="hljs-params">left</span>, <span class="hljs-params">sum</span> - <span class="hljs-params">root</span>.<span class="hljs-params">val</span>)</span><span class="hljs-operator"> || </span>has<span class="hljs-constructor">PathSum(<span class="hljs-params">root</span>.<span class="hljs-params">right</span>, <span class="hljs-params">sum</span> - <span class="hljs-params">root</span>.<span class="hljs-params">val</span>)</span>
+};
+
+<span class="hljs-comment">/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {boolean}
+ */</span>
+<span class="hljs-comment">//利用迭代，利用栈保存读入的结点和剩余需要满足的sum</span>
+<span class="hljs-comment">//栈中存放的是要找的结点的 记录，每次都是从栈中pop出一个结点，把该结点的子结点，和差满足sum的值cha都加入栈，然后迭代。如果抛出的结点是叶子结点，且cha===0则满足条件</span>
+<span class="hljs-keyword">function</span> has<span class="hljs-constructor">PathSum2(<span class="hljs-params">root</span>, <span class="hljs-params">sum</span>)</span> {
+    <span class="hljs-keyword">if</span> (!root) return <span class="hljs-literal">false</span>
+
+    <span class="hljs-comment">//初始化 栈</span>
+    <span class="hljs-keyword">let</span> stack = <span class="hljs-literal">[{<span class="hljs-identifier">node</span>: <span class="hljs-identifier">root</span>, <span class="hljs-identifier">cha</span>: <span class="hljs-identifier">sum</span> - <span class="hljs-identifier">root</span>.<span class="hljs-identifier">val</span>}]</span>
+
+    <span class="hljs-keyword">while</span> (stack.length &gt; <span class="hljs-number">0</span>) {
+
+        <span class="hljs-keyword">let</span> {node, cha} = stack.pop<span class="hljs-literal">()</span>
+
+        <span class="hljs-keyword">if</span> (!node.left<span class="hljs-operator"> &amp;&amp; </span>!node.right) {
+            <span class="hljs-keyword">if</span> (cha<span class="hljs-operator"> === </span><span class="hljs-number">0</span>) return <span class="hljs-literal">true</span>  <span class="hljs-comment">//叶子结点，且到叶子结点，正好等于目标值</span>
+        }
+
+        <span class="hljs-keyword">if</span> (node.right) {
+            <span class="hljs-keyword">let</span> right_node = {node: node.right, cha: cha - node.right.<span class="hljs-keyword">val</span>}
+            stack.push(right_node)
+        }
+        <span class="hljs-keyword">if</span> (node.left) {
+            <span class="hljs-keyword">let</span> left_node = {node: node.left, cha: cha - node.left.<span class="hljs-keyword">val</span>}
+            stack.push(left_node)
+        }
+    }
+    return <span class="hljs-literal">false</span>
+}
+
+
+<span class="hljs-keyword">let</span> one = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(1)</span>;
+<span class="hljs-keyword">let</span> two = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(2)</span>;
+<span class="hljs-keyword">let</span> three = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(3)</span>;
+<span class="hljs-keyword">let</span> four = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(4)</span>;
+<span class="hljs-keyword">let</span> five = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(5)</span>
+<span class="hljs-keyword">let</span> seven = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(7)</span>
+<span class="hljs-keyword">let</span> eight = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(8)</span>
+<span class="hljs-keyword">let</span> eleven = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(11)</span>
+<span class="hljs-keyword">let</span> thirten = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(13)</span>
+<span class="hljs-keyword">let</span> four_2 = <span class="hljs-keyword">new</span> <span class="hljs-constructor">TreeNode(4)</span>
+
+five.left = four
+five.right = eight
+four.left = eleven
+eleven.left = seven
+eleven.right = two
+eight.left = thirten
+eight.right = four_2
+four_2.right = one
+
+<span class="hljs-keyword">let</span> result = has<span class="hljs-constructor">PathSum2(<span class="hljs-params">five</span>, 18)</span>
+console.log(result)
+</code> </pre></div></div></article></div></main></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"post":{"date":"2021 / 3 / 1","slug":"112.路径总和.js","content":"\u003cpre\u003e \u003ccode class=\"hljs\" \u003e\u003cspan class=\"hljs-comment\"\u003e/*\n给定一个二叉树和一个目标和，判断该树中是否存在从根结点到叶子结点的路径，这条路径上所有结点值相加等于目标和。\n说明: 叶子节点是指没有子节点的节点。\n思路：一个树从根结点到叶子结点的所有路径是确定的，所以用迭代的方式找到所有的路径，在找到一条路径所有结点相加等于目标和就停止查找。\n有几个叶子结点就有几条路径\n*/\u003c/span\u003e\n\n\n\u003cspan class=\"hljs-comment\"\u003e/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(\u003cspan class=\"hljs-params\"\u003eval\u003c/span\u003e)\u003c/span\u003e {\n    this.\u003cspan class=\"hljs-keyword\"\u003eval\u003c/span\u003e = \u003cspan class=\"hljs-keyword\"\u003eval\u003c/span\u003e;\n    this.left = this.right = null;\n}\n\n\u003cspan class=\"hljs-comment\"\u003e/**\n * @param {TreeNode} root\n * @param {number} sum\n * @return {boolean}\n */\u003c/span\u003e\n\u003cspan class=\"hljs-comment\"\u003e// 思路：利用递归，判断到叶子结点，判断传入的sum是否和叶子结点的val相等\u003c/span\u003e\nvar hasPathSum = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e (root, sum) {\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!root) return \u003cspan class=\"hljs-literal\"\u003efalse\u003c/span\u003e\n\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!root.left\u003cspan class=\"hljs-operator\"\u003e \u0026amp;\u0026amp; \u003c/span\u003e!root.right) {\n        return root.\u003cspan class=\"hljs-keyword\"\u003eval\u003c/span\u003e\u003cspan class=\"hljs-operator\"\u003e === \u003c/span\u003esum\n    }\n\n    return has\u003cspan class=\"hljs-constructor\"\u003ePathSum(\u003cspan class=\"hljs-params\"\u003eroot\u003c/span\u003e.\u003cspan class=\"hljs-params\"\u003eleft\u003c/span\u003e, \u003cspan class=\"hljs-params\"\u003esum\u003c/span\u003e - \u003cspan class=\"hljs-params\"\u003eroot\u003c/span\u003e.\u003cspan class=\"hljs-params\"\u003eval\u003c/span\u003e)\u003c/span\u003e\u003cspan class=\"hljs-operator\"\u003e || \u003c/span\u003ehas\u003cspan class=\"hljs-constructor\"\u003ePathSum(\u003cspan class=\"hljs-params\"\u003eroot\u003c/span\u003e.\u003cspan class=\"hljs-params\"\u003eright\u003c/span\u003e, \u003cspan class=\"hljs-params\"\u003esum\u003c/span\u003e - \u003cspan class=\"hljs-params\"\u003eroot\u003c/span\u003e.\u003cspan class=\"hljs-params\"\u003eval\u003c/span\u003e)\u003c/span\u003e\n};\n\n\u003cspan class=\"hljs-comment\"\u003e/**\n * @param {TreeNode} root\n * @param {number} sum\n * @return {boolean}\n */\u003c/span\u003e\n\u003cspan class=\"hljs-comment\"\u003e//利用迭代，利用栈保存读入的结点和剩余需要满足的sum\u003c/span\u003e\n\u003cspan class=\"hljs-comment\"\u003e//栈中存放的是要找的结点的 记录，每次都是从栈中pop出一个结点，把该结点的子结点，和差满足sum的值cha都加入栈，然后迭代。如果抛出的结点是叶子结点，且cha===0则满足条件\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e has\u003cspan class=\"hljs-constructor\"\u003ePathSum2(\u003cspan class=\"hljs-params\"\u003eroot\u003c/span\u003e, \u003cspan class=\"hljs-params\"\u003esum\u003c/span\u003e)\u003c/span\u003e {\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!root) return \u003cspan class=\"hljs-literal\"\u003efalse\u003c/span\u003e\n\n    \u003cspan class=\"hljs-comment\"\u003e//初始化 栈\u003c/span\u003e\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e stack = \u003cspan class=\"hljs-literal\"\u003e[{\u003cspan class=\"hljs-identifier\"\u003enode\u003c/span\u003e: \u003cspan class=\"hljs-identifier\"\u003eroot\u003c/span\u003e, \u003cspan class=\"hljs-identifier\"\u003echa\u003c/span\u003e: \u003cspan class=\"hljs-identifier\"\u003esum\u003c/span\u003e - \u003cspan class=\"hljs-identifier\"\u003eroot\u003c/span\u003e.\u003cspan class=\"hljs-identifier\"\u003eval\u003c/span\u003e}]\u003c/span\u003e\n\n    \u003cspan class=\"hljs-keyword\"\u003ewhile\u003c/span\u003e (stack.length \u0026gt; \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e) {\n\n        \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e {node, cha} = stack.pop\u003cspan class=\"hljs-literal\"\u003e()\u003c/span\u003e\n\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!node.left\u003cspan class=\"hljs-operator\"\u003e \u0026amp;\u0026amp; \u003c/span\u003e!node.right) {\n            \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (cha\u003cspan class=\"hljs-operator\"\u003e === \u003c/span\u003e\u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e) return \u003cspan class=\"hljs-literal\"\u003etrue\u003c/span\u003e  \u003cspan class=\"hljs-comment\"\u003e//叶子结点，且到叶子结点，正好等于目标值\u003c/span\u003e\n        }\n\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (node.right) {\n            \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e right_node = {node: node.right, cha: cha - node.right.\u003cspan class=\"hljs-keyword\"\u003eval\u003c/span\u003e}\n            stack.push(right_node)\n        }\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (node.left) {\n            \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e left_node = {node: node.left, cha: cha - node.left.\u003cspan class=\"hljs-keyword\"\u003eval\u003c/span\u003e}\n            stack.push(left_node)\n        }\n    }\n    return \u003cspan class=\"hljs-literal\"\u003efalse\u003c/span\u003e\n}\n\n\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e one = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(1)\u003c/span\u003e;\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e two = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(2)\u003c/span\u003e;\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e three = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(3)\u003c/span\u003e;\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e four = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(4)\u003c/span\u003e;\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e five = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(5)\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e seven = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(7)\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e eight = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(8)\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e eleven = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(11)\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e thirten = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(13)\u003c/span\u003e\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e four_2 = \u003cspan class=\"hljs-keyword\"\u003enew\u003c/span\u003e \u003cspan class=\"hljs-constructor\"\u003eTreeNode(4)\u003c/span\u003e\n\nfive.left = four\nfive.right = eight\nfour.left = eleven\neleven.left = seven\neleven.right = two\neight.left = thirten\neight.right = four_2\nfour_2.right = one\n\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e result = has\u003cspan class=\"hljs-constructor\"\u003ePathSum2(\u003cspan class=\"hljs-params\"\u003efive\u003c/span\u003e, 18)\u003c/span\u003e\nconsole.log(result)\n\u003c/code\u003e \u003c/pre\u003e"}},"__N_SSG":true},"page":"/leetcode/[slug]","query":{"slug":"112.路径总和.js"},"buildId":"l6GsR6YTH6JoCyLeLD2pY","nextExport":false,"isFallback":false,"gsp":true}</script><script nomodule="" src="/_next/static/runtime/polyfills-b10afcedf826ebd862ad.js"></script><script async="" data-next-page="/_app" src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/_app.js"></script><script async="" data-next-page="/leetcode/[slug]" src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/leetcode/%5Bslug%5D.js"></script><script src="/_next/static/runtime/webpack-c212667a5f965e81e004.js" async=""></script><script src="/_next/static/chunks/framework.e84fa698c7ee940652bd.js" async=""></script><script src="/_next/static/chunks/commons.ceeeee915f5ebe162cf6.js" async=""></script><script src="/_next/static/runtime/main-2d0e0ec422dc1daf32e9.js" async=""></script><script src="/_next/static/chunks/7044f820306bd58a729f9022770285ba51ab18bf.7835bc517feeeb1028d6.js" async=""></script><script src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/_buildManifest.js" async=""></script><script src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/_ssgManifest.js" async=""></script></body></html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width"/><meta charSet="utf-8"/><link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png"/><link rel="manifest" href="/favicon/site.webmanifest"/><link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#000000"/><link rel="shortcut icon" href="/favicon/favicon.ico"/><meta name="msapplication-TileColor" content="#000000"/><meta name="msapplication-config" content="/favicon/browserconfig.xml"/><meta name="theme-color" content="#000"/><link rel="alternate" type="application/rss+xml" href="/feed.xml"/><meta name="description" content="A statically generated blog example using Next.js and Markdown."/><meta property="og:image" content="https://og-image.now.sh/Next.js%20Blog%20Starter%20Example.png?theme=light&amp;md=1&amp;fontSize=100px&amp;images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg"/><title>模拟ES6之map.js | Next.js Blog Example with Markdown</title><meta name="next-head-count" content="15"/><link rel="preload" href="/_next/static/css/caa0743884ed3c582710.css" as="style"/><link rel="stylesheet" href="/_next/static/css/caa0743884ed3c582710.css"/><link rel="preload" href="/_next/static/css/5f2b43ec3e132ba48013.css" as="style"/><link rel="stylesheet" href="/_next/static/css/5f2b43ec3e132ba48013.css"/><link rel="preload" href="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/_app.js" as="script"/><link rel="preload" href="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/leetcode/%5Bslug%5D.js" as="script"/><link rel="preload" href="/_next/static/runtime/webpack-c212667a5f965e81e004.js" as="script"/><link rel="preload" href="/_next/static/chunks/framework.e84fa698c7ee940652bd.js" as="script"/><link rel="preload" href="/_next/static/chunks/commons.ceeeee915f5ebe162cf6.js" as="script"/><link rel="preload" href="/_next/static/runtime/main-2d0e0ec422dc1daf32e9.js" as="script"/><link rel="preload" href="/_next/static/chunks/7044f820306bd58a729f9022770285ba51ab18bf.7835bc517feeeb1028d6.js" as="script"/></head><body><div id="__next"><div class="min-h-screen"><div class="border-b bg-accent-1 border-accent-2"><div class="container mx-auto px-5"><div class="py-2 text-center text-sm">The source code for this blog is<!-- --> <a href="https://github.com/justsso/Algorithms-and-Data-Structures.git" class="underline hover:text-success duration-200 transition-colors">available on GitHub</a>.</div></div></div><main><div class="container mx-auto px-5"><section class="flex-col md:flex-row flex items-center md:justify-between mt-8 mb-8 md:mb-8 font-serif"><h3 class="text-6xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-8 text-green-600">LeetCode</h3><h4 class="text-center md:text-left text-lg mt-5 md:pl-8">leetcode刷题代码，解题思路写在注释中</h4></section><article class="mb-32"><h3 class="text-lg md:text-xl lg:text-xl font-serif  antialiased tracking-tighter leading-tight md:leading-none mb-6 text-center md:text-left">模拟ES6之map.js</h3><div class="max-w-2xl"><div class="mb-6 text-lg font-serif  antialiased text-sm"><time dateTime="2021 / 3 / 1">2021-03-01</time></div></div><div class="max-w-6xl mx-auto"><div class="markdown-styles_markdown__1x9gM"><pre> <code class="hljs" >//ES6 的<span class="hljs-keyword">map</span>插入有顺序，这是跟普通<span class="hljs-keyword">map</span>不一样的点，所以模拟ES6的<span class="hljs-keyword">map</span>时，用了链表维持这种顺序
+class ListNode {
+    constructor<span class="hljs-built_in">(key</span>, <span class="hljs-keyword">value</span>) {
+        this<span class="hljs-built_in">.key</span> =<span class="hljs-built_in"> key</span>;
+        this.<span class="hljs-keyword">value</span> = <span class="hljs-keyword">value</span>;
+        this.<span class="hljs-keyword">next</span> = null;  //记录插入顺序
+        this.<span class="hljs-literal">ne</span> = null; //记录Hash碰撞后的结点
+    }
+}
+
+<span class="hljs-keyword">function</span> myMap() {
+    this.init();
+}
+
+myMap.prototype.init = <span class="hljs-keyword">function</span> () {
+    this<span class="hljs-built_in">.collection</span> = new Array(<span class="hljs-number">6</span>)  //<span class="hljs-keyword">map</span>底层用了hash算法。加入使<span class="hljs-built_in">用collection</span>容器存放<span class="hljs-keyword">map</span>中的数据
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; this<span class="hljs-built_in">.collection</span>.length; i++) {
+        this<span class="hljs-built_in">.collection</span>[i] = Object.create(null)
+        this<span class="hljs-built_in">.collection</span>[i].<span class="hljs-literal">ne</span> = null;
+        this<span class="hljs-built_in">.collection</span>[i].<span class="hljs-keyword">next</span> = null;
+    }
+    this.size = <span class="hljs-number">0</span>
+    this<span class="hljs-built_in">.head</span> = null; //头指针，总是指向第一个
+    this<span class="hljs-built_in">.tail</span> = null;  //尾指针，总是指向最后一个
+}
+
+//插入或更<span class="hljs-built_in">新key</span>结点
+myMap.prototype.set = <span class="hljs-keyword">function</span> <span class="hljs-built_in">(key</span>, <span class="hljs-keyword">value</span>) {
+    <span class="hljs-keyword">let</span> index = this.hash<span class="hljs-built_in">(key</span>)  //获取容器中的位置
+    <span class="hljs-keyword">let</span> <span class="hljs-type">node</span> = this<span class="hljs-built_in">.collection</span>[index]  //获得index位置处的对象
+    while (<span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-type">node</span>.<span class="hljs-literal">ne</span><span class="hljs-built_in">.key</span> ===<span class="hljs-built_in"> key</span>) {
+            <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>.<span class="hljs-keyword">value</span> = <span class="hljs-keyword">value</span>  //更新
+            <span class="hljs-keyword">return</span> this  //注意返回当前对象this
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-type">node</span> = <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>
+        }
+    }
+    //<span class="hljs-keyword">map</span>中没有<span class="hljs-built_in">该key</span>，就在链表尾部插入
+    <span class="hljs-keyword">let</span> new_node = new ListNode<span class="hljs-built_in">(key</span>, <span class="hljs-keyword">value</span>)
+    <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span> = new_node
+    <span class="hljs-keyword">if</span> (!this<span class="hljs-built_in">.tail</span>) {
+        this<span class="hljs-built_in">.tail</span> = new_node
+    }
+
+    <span class="hljs-keyword">if</span> (!this<span class="hljs-built_in">.head</span>) {
+        this<span class="hljs-built_in">.head</span> = new_node  //如果是第一个结点，头指针指向它
+    }
+
+    this<span class="hljs-built_in">.tail</span>.<span class="hljs-keyword">next</span> = new_node  //尾指针
+    this<span class="hljs-built_in">.tail</span> = new_node
+
+    this.size++
+    <span class="hljs-keyword">return</span> this  //注意返回当前对象this
+
+}
+
+//获<span class="hljs-built_in">取key</span>结点的值
+myMap.prototype.get = <span class="hljs-keyword">function</span> <span class="hljs-built_in">(key</span>) {
+    <span class="hljs-keyword">let</span> index = this.hash<span class="hljs-built_in">(key</span>)
+    <span class="hljs-keyword">let</span> <span class="hljs-type">node</span> = this<span class="hljs-built_in">.collection</span>[index] //获取容器相应位置处的对象
+    while (<span class="hljs-type">node</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-type">node</span><span class="hljs-built_in">.key</span> ===<span class="hljs-built_in"> key</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-type">node</span>.<span class="hljs-keyword">value</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-type">node</span> = <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>
+        }
+    }
+    <span class="hljs-keyword">return</span> undefined
+}
+
+//删<span class="hljs-built_in">掉key</span>结点
+myMap.prototype.<span class="hljs-keyword">delete</span> = <span class="hljs-keyword">function</span> <span class="hljs-built_in">(key</span>) {
+    <span class="hljs-keyword">if</span> (!this<span class="hljs-built_in">.head</span>) {
+        <span class="hljs-keyword">return</span><span class="hljs-built_in"> false</span>
+    }
+
+    //从容器中删除
+    <span class="hljs-keyword">let</span> index = this.hash<span class="hljs-built_in">(key</span>)
+    <span class="hljs-keyword">let</span> <span class="hljs-type">node</span> = this<span class="hljs-built_in">.collection</span>[index]
+    <span class="hljs-keyword">let</span> pre = null;
+    while (<span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-type">node</span>.<span class="hljs-literal">ne</span><span class="hljs-built_in">.key</span> ===<span class="hljs-built_in"> key</span>) {
+            <span class="hljs-keyword">let</span> _prev = <span class="hljs-type">node</span>; //从链表中删除，需要前置结点
+            <span class="hljs-keyword">let</span> _<span class="hljs-type">node</span> = <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span> //保存要删除的结点
+            _prev.<span class="hljs-literal">ne</span> = <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>.<span class="hljs-literal">ne</span>//从容器中删除，前置结点的指针指向要删除结点的指针
+            //从链表中删除
+            <span class="hljs-keyword">if</span> (this<span class="hljs-built_in">.head</span> === _<span class="hljs-type">node</span>) { //如果要删除的结点是头结点
+                this<span class="hljs-built_in">.head</span> = _<span class="hljs-type">node</span>.<span class="hljs-keyword">next</span>;
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (this<span class="hljs-built_in">.tail</span> === _<span class="hljs-type">node</span>) { //如果要删除的结点时尾结点
+                this<span class="hljs-built_in">.tail</span> = _prev; //将尾指针指为前置结点
+                _prev.<span class="hljs-keyword">next</span> = null; //将前置结点的指针置为空
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">let</span> cur = this<span class="hljs-built_in">.head</span>;
+                while (cur) {
+                    <span class="hljs-keyword">if</span> (cur<span class="hljs-built_in">.key</span> !==<span class="hljs-built_in"> key</span>) {
+                        pre = cur;
+                        cur = cur.<span class="hljs-keyword">next</span>;
+                    } <span class="hljs-keyword">else</span> {
+                        break
+                    }
+                }
+                pre.<span class="hljs-keyword">next</span> = cur.<span class="hljs-keyword">next</span>
+            }
+            this.size--
+            <span class="hljs-keyword">return</span><span class="hljs-built_in"> true</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-type">node</span> = <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>
+        }
+    }
+    <span class="hljs-keyword">return</span><span class="hljs-built_in"> false</span>
+}
+
+myMap.prototype.has = <span class="hljs-keyword">function</span> <span class="hljs-built_in">(key</span>) {
+    <span class="hljs-keyword">let</span> index = this.hash<span class="hljs-built_in">(key</span>)
+    <span class="hljs-keyword">let</span> <span class="hljs-type">node</span> = this<span class="hljs-built_in">.collection</span>[index]
+    while (<span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-type">node</span>.<span class="hljs-literal">ne</span><span class="hljs-built_in">.key</span> ===<span class="hljs-built_in"> key</span>) {
+            <span class="hljs-keyword">return</span><span class="hljs-built_in"> true</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-type">node</span> = <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>
+        }
+    }
+    <span class="hljs-keyword">return</span><span class="hljs-built_in"> false</span>
+}
+
+//获取某个结点
+myMap.prototype.getNode = <span class="hljs-keyword">function</span> <span class="hljs-built_in">(key</span>) {
+    <span class="hljs-keyword">let</span> index = this.hash<span class="hljs-built_in">(key</span>)
+    <span class="hljs-keyword">let</span> <span class="hljs-type">node</span> = this<span class="hljs-built_in">.collection</span>[index]
+    <span class="hljs-keyword">if</span> (<span class="hljs-type">node</span> === undefined) <span class="hljs-keyword">return</span> null
+    while (<span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-type">node</span><span class="hljs-built_in">.key</span> ===<span class="hljs-built_in"> key</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-type">node</span>
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-type">node</span> = <span class="hljs-type">node</span>.<span class="hljs-literal">ne</span>
+        }
+    }
+    <span class="hljs-keyword">return</span> null
+}
+
+//返回键名的遍历器
+myMap.prototype.keys = <span class="hljs-keyword">function</span>* () {
+    <span class="hljs-keyword">let</span><span class="hljs-built_in"> head</span> = this<span class="hljs-built_in">.head</span>
+    // 遍历链表，把链表中所有Key放入生成器中
+    while <span class="hljs-built_in">(head</span>) {
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">(head</span><span class="hljs-built_in">.key</span>) {
+            yield<span class="hljs-built_in"> head</span><span class="hljs-built_in">.key</span>
+        }
+       <span class="hljs-built_in"> head</span> =<span class="hljs-built_in"> head</span>.<span class="hljs-keyword">next</span>
+    }
+}
+
+//返回键值的遍历器
+myMap.prototype.values = <span class="hljs-keyword">function</span>* () {
+    <span class="hljs-keyword">let</span><span class="hljs-built_in"> head</span> = this<span class="hljs-built_in">.head</span>;
+    while <span class="hljs-built_in">(head</span>) {
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">(head</span>.<span class="hljs-keyword">value</span>) {
+            yield<span class="hljs-built_in"> head</span>.<span class="hljs-keyword">value</span>
+        }
+       <span class="hljs-built_in"> head</span> =<span class="hljs-built_in"> head</span>.<span class="hljs-keyword">next</span>
+    }
+}
+
+//返回所有成员 遍历器
+myMap.prototype.entries = <span class="hljs-keyword">function</span>* () {
+    <span class="hljs-keyword">let</span><span class="hljs-built_in"> head</span> = this<span class="hljs-built_in">.head</span>;
+    while <span class="hljs-built_in">(head</span>) {
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">(head</span><span class="hljs-built_in">.key</span>) {
+            yield <span class="hljs-built_in">[head</span><span class="hljs-built_in">.key</span>,<span class="hljs-built_in"> head</span>.<span class="hljs-keyword">value</span>]
+        }
+       <span class="hljs-built_in"> head</span> =<span class="hljs-built_in"> head</span>.<span class="hljs-keyword">next</span>
+    }
+}
+myMap.prototype[Symbol.iterator] = myMap.prototype.entries  //默认遍历器接口。<span class="hljs-keyword">for</span> <span class="hljs-keyword">of</span>使用
+
+//返回Map的所有成员，接受一个函数作为第一个参数，第二个参数是thisArg 如果省略了 thisArg 参数，或者其值为 null 或 undefined，this 则指向全局对象。
+myMap.prototype.forEach = <span class="hljs-keyword">function</span> (callbackFn, thisArg) {
+    <span class="hljs-keyword">let</span><span class="hljs-built_in"> head</span> = this<span class="hljs-built_in">.head</span>
+    while <span class="hljs-built_in">(head</span>) {
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">(head</span><span class="hljs-built_in">.key</span>) {
+            callbackFn.call(thisArg,<span class="hljs-built_in"> head</span><span class="hljs-built_in">.key</span>,<span class="hljs-built_in"> head</span>.<span class="hljs-keyword">value</span>, this)
+           <span class="hljs-built_in"> head</span> =<span class="hljs-built_in"> head</span>.<span class="hljs-keyword">next</span>
+        }
+    }
+}
+
+myMap.prototype.clear = <span class="hljs-keyword">function</span> () {
+    this.init()
+}
+/**
+ * @param  any<span class="hljs-built_in"> key</span>
+ * @<span class="hljs-keyword">return</span> <span class="hljs-built_in">{number</span>}
+ */
+
+//Hash 方法，Hash的速算法我自己模拟一个，真正实践中的Hash算法肯定十分复杂
+myMap.prototype.hash = <span class="hljs-keyword">function</span> <span class="hljs-built_in">(key</span>) {
+    <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (typeof<span class="hljs-built_in"> key</span> === <span class="hljs-string">'string'</span>) {
+        //字符串的话取前<span class="hljs-number">10</span>位，也没必要全部遍历完字符串，会影响性能、计算时间
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) {
+            index += isNaN<span class="hljs-built_in">(key</span>.charCodeAt(i)) ? <span class="hljs-number">0</span> :<span class="hljs-built_in"> key</span>.charCodeAt(i)
+        }
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (typeof<span class="hljs-built_in"> key</span> === <span class="hljs-string">'number'</span>) {
+        index = isNaN<span class="hljs-built_in">(key</span>) ? this<span class="hljs-built_in">.collection</span>.length - <span class="hljs-number">1</span> :<span class="hljs-built_in"> key</span> % this<span class="hljs-built_in">.collection</span>.length
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (typeof<span class="hljs-built_in"> key</span> === <span class="hljs-string">'object'</span>) {
+        //    如果传入的是一个对象作为键，es6中的Map，底层Hash算法一定跟它的内存地址有关，因为取值时，比较的是是否是同一个引用。就算给了一个字面量相同的值，也不能取到值，必须试试引用相同的值才能取到
+        //    这里我只能模<span class="hljs-built_in">拟key</span>为对象时，经Hash算法得到的都是index=<span class="hljs-number">0</span>了
+        index = <span class="hljs-number">0</span>
+
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (typeof<span class="hljs-built_in"> key</span> === <span class="hljs-string">'undefined'</span>) {
+        index = <span class="hljs-number">1</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (typeof<span class="hljs-built_in"> key</span> === <span class="hljs-string">'boolean'</span>) {
+        index = <span class="hljs-number">2</span>
+    }
+    <span class="hljs-keyword">return</span> index % this<span class="hljs-built_in">.collection</span>.length
+}
+
+<span class="hljs-keyword">let</span> m = new myMap();
+m.set(<span class="hljs-string">'a'</span>, <span class="hljs-number">1</span>).set(<span class="hljs-string">'b'</span>, <span class="hljs-number">2</span>)
+console.log(m.get(<span class="hljs-string">'a'</span>), m.get(<span class="hljs-string">'b'</span>))
+<span class="hljs-keyword">let</span> obj = <span class="hljs-built_in">{name</span>: <span class="hljs-string">'lolita'</span>}
+<span class="hljs-keyword">let</span> obj2 = <span class="hljs-built_in">{name</span>: <span class="hljs-string">'obj2'</span>}
+// console.log(JSON.stringify(m, null, <span class="hljs-number">4</span>))
+
+m.set(obj, <span class="hljs-string">'obj'</span>)
+m.set(obj2, <span class="hljs-string">'obj2'</span>)
+// console.log(JSON.stringify(m, null, <span class="hljs-number">4</span>))
+console.log(m.get(obj))
+console.log(m.size)
+// console.log(m.get(obj2))
+// console.log(m.<span class="hljs-keyword">delete</span>(<span class="hljs-string">'a'</span>))
+// console.log(m.has(<span class="hljs-string">'a'</span>))
+console.log(m.<span class="hljs-keyword">delete</span>(<span class="hljs-string">'a'</span>))
+console.log(m.<span class="hljs-keyword">delete</span>(<span class="hljs-string">'a'</span>))
+
+console.log(m.<span class="hljs-keyword">delete</span>(obj))
+console.log(m.get(obj2))
+// console.log(JSON.stringify(m, null, <span class="hljs-number">4</span>))
+// console.log(m.<span class="hljs-keyword">delete</span>(obj2))
+// console.log(JSON.stringify(m, null, <span class="hljs-number">4</span>))
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span><span class="hljs-built_in"> key</span> <span class="hljs-keyword">of</span> m.keys()) {
+    console.log(<span class="hljs-string">'key:'</span>,<span class="hljs-built_in"> key</span>)
+}
+//
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> <span class="hljs-keyword">value</span> <span class="hljs-keyword">of</span> m.values()) {
+    console.log(<span class="hljs-string">'value:'</span>, <span class="hljs-keyword">value</span>)
+}
+//
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> <span class="hljs-type">item</span> <span class="hljs-keyword">of</span> m.entries()) {
+    console.log(<span class="hljs-type">item</span>[<span class="hljs-number">0</span>], <span class="hljs-type">item</span>[<span class="hljs-number">1</span>])
+}
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> <span class="hljs-built_in">[key</span>, <span class="hljs-keyword">value</span>] <span class="hljs-keyword">of</span> m) {
+    console.log<span class="hljs-built_in">(key</span>, <span class="hljs-keyword">value</span>);
+}
+
+<span class="hljs-keyword">let</span> ooo = <span class="hljs-built_in">{name</span>: <span class="hljs-string">'Jack'</span>}
+m.forEach(<span class="hljs-keyword">function</span> <span class="hljs-built_in">(key</span>, <span class="hljs-keyword">value</span>, <span class="hljs-keyword">map</span>) {
+    console.log(<span class="hljs-string">"key: %s, value: %s"</span>,<span class="hljs-built_in"> key</span>, <span class="hljs-keyword">value</span>)
+    console.log(this)  //forEach第二个参数不写或者null或者undefined，this都会是全局对象
+}, ooo)
+// console.log(m.clear())
+m.set(<span class="hljs-literal">NaN</span>, <span class="hljs-number">1</span>)
+console.log(m.get((<span class="hljs-literal">NaN</span>)))
+// console.log(arr.<span class="hljs-keyword">next</span>())
+// console.log(arr.<span class="hljs-keyword">next</span>())
+// console.log(arr.<span class="hljs-keyword">next</span>())
+// console.log(arr.<span class="hljs-keyword">next</span>())
+// console.log(arr.<span class="hljs-keyword">next</span>())
+</code> </pre></div></div></article></div></main></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"post":{"date":"2021 / 3 / 1","slug":"模拟ES6之map.js","content":"\u003cpre\u003e \u003ccode class=\"hljs\" \u003e//ES6 的\u003cspan class=\"hljs-keyword\"\u003emap\u003c/span\u003e插入有顺序，这是跟普通\u003cspan class=\"hljs-keyword\"\u003emap\u003c/span\u003e不一样的点，所以模拟ES6的\u003cspan class=\"hljs-keyword\"\u003emap\u003c/span\u003e时，用了链表维持这种顺序\nclass ListNode {\n    constructor\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e) {\n        this\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e =\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e;\n        this.\u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e = \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e;\n        this.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e = null;  //记录插入顺序\n        this.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e = null; //记录Hash碰撞后的结点\n    }\n}\n\n\u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e myMap() {\n    this.init();\n}\n\nmyMap.prototype.init = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e () {\n    this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e = new Array(\u003cspan class=\"hljs-number\"\u003e6\u003c/span\u003e)  //\u003cspan class=\"hljs-keyword\"\u003emap\u003c/span\u003e底层用了hash算法。加入使\u003cspan class=\"hljs-built_in\"\u003e用collection\u003c/span\u003e容器存放\u003cspan class=\"hljs-keyword\"\u003emap\u003c/span\u003e中的数据\n    \u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e (\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e i = \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e; i \u0026lt; this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e.length; i++) {\n        this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[i] = Object.create(null)\n        this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[i].\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e = null;\n        this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[i].\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e = null;\n    }\n    this.size = \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e\n    this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e = null; //头指针，总是指向第一个\n    this\u003cspan class=\"hljs-built_in\"\u003e.tail\u003c/span\u003e = null;  //尾指针，总是指向最后一个\n}\n\n//插入或更\u003cspan class=\"hljs-built_in\"\u003e新key\u003c/span\u003e结点\nmyMap.prototype.set = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e) {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e index = this.hash\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e)  //获取容器中的位置\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[index]  //获得index位置处的对象\n    while (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e ===\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e) {\n            \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e = \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e  //更新\n            \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e this  //注意返回当前对象this\n        } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n            \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\n        }\n    }\n    //\u003cspan class=\"hljs-keyword\"\u003emap\u003c/span\u003e中没有\u003cspan class=\"hljs-built_in\"\u003e该key\u003c/span\u003e，就在链表尾部插入\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e new_node = new ListNode\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e)\n    \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e = new_node\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!this\u003cspan class=\"hljs-built_in\"\u003e.tail\u003c/span\u003e) {\n        this\u003cspan class=\"hljs-built_in\"\u003e.tail\u003c/span\u003e = new_node\n    }\n\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e) {\n        this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e = new_node  //如果是第一个结点，头指针指向它\n    }\n\n    this\u003cspan class=\"hljs-built_in\"\u003e.tail\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e = new_node  //尾指针\n    this\u003cspan class=\"hljs-built_in\"\u003e.tail\u003c/span\u003e = new_node\n\n    this.size++\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e this  //注意返回当前对象this\n\n}\n\n//获\u003cspan class=\"hljs-built_in\"\u003e取key\u003c/span\u003e结点的值\nmyMap.prototype.get = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e) {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e index = this.hash\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e)\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[index] //获取容器相应位置处的对象\n    while (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e ===\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e) {\n            \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e\n        } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n            \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\n        }\n    }\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e undefined\n}\n\n//删\u003cspan class=\"hljs-built_in\"\u003e掉key\u003c/span\u003e结点\nmyMap.prototype.\u003cspan class=\"hljs-keyword\"\u003edelete\u003c/span\u003e = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e) {\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (!this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e false\u003c/span\u003e\n    }\n\n    //从容器中删除\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e index = this.hash\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e)\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[index]\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e pre = null;\n    while (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e ===\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e) {\n            \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e _prev = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e; //从链表中删除，需要前置结点\n            \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e _\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e //保存要删除的结点\n            _prev.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e//从容器中删除，前置结点的指针指向要删除结点的指针\n            //从链表中删除\n            \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e === _\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e) { //如果要删除的结点是头结点\n                this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e = _\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e;\n            } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (this\u003cspan class=\"hljs-built_in\"\u003e.tail\u003c/span\u003e === _\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e) { //如果要删除的结点时尾结点\n                this\u003cspan class=\"hljs-built_in\"\u003e.tail\u003c/span\u003e = _prev; //将尾指针指为前置结点\n                _prev.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e = null; //将前置结点的指针置为空\n            } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n                \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e cur = this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e;\n                while (cur) {\n                    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (cur\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e !==\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e) {\n                        pre = cur;\n                        cur = cur.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e;\n                    } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n                        break\n                    }\n                }\n                pre.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e = cur.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e\n            }\n            this.size--\n            \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e true\u003c/span\u003e;\n        } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n            \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\n        }\n    }\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e false\u003c/span\u003e\n}\n\nmyMap.prototype.has = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e) {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e index = this.hash\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e)\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[index]\n    while (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e ===\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e) {\n            \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e true\u003c/span\u003e\n        } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n            \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\n        }\n    }\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e false\u003c/span\u003e\n}\n\n//获取某个结点\nmyMap.prototype.getNode = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e) {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e index = this.hash\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e)\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e[index]\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e === undefined) \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e null\n    while (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (\u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e ===\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e) {\n            \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e\n        } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e {\n            \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e = \u003cspan class=\"hljs-type\"\u003enode\u003c/span\u003e.\u003cspan class=\"hljs-literal\"\u003ene\u003c/span\u003e\n        }\n    }\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e null\n}\n\n//返回键名的遍历器\nmyMap.prototype.keys = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e* () {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e\n    // 遍历链表，把链表中所有Key放入生成器中\n    while \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e) {\n            yield\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e\n        }\n       \u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e =\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e\n    }\n}\n\n//返回键值的遍历器\nmyMap.prototype.values = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e* () {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e;\n    while \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e) {\n            yield\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e\n        }\n       \u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e =\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e\n    }\n}\n\n//返回所有成员 遍历器\nmyMap.prototype.entries = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e* () {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e;\n    while \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e) {\n            yield \u003cspan class=\"hljs-built_in\"\u003e[head\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e,\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e]\n        }\n       \u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e =\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e\n    }\n}\nmyMap.prototype[Symbol.iterator] = myMap.prototype.entries  //默认遍历器接口。\u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eof\u003c/span\u003e使用\n\n//返回Map的所有成员，接受一个函数作为第一个参数，第二个参数是thisArg 如果省略了 thisArg 参数，或者其值为 null 或 undefined，this 则指向全局对象。\nmyMap.prototype.forEach = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e (callbackFn, thisArg) {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e = this\u003cspan class=\"hljs-built_in\"\u003e.head\u003c/span\u003e\n    while \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e) {\n        \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(head\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e) {\n            callbackFn.call(thisArg,\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e.key\u003c/span\u003e,\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e, this)\n           \u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e =\u003cspan class=\"hljs-built_in\"\u003e head\u003c/span\u003e.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e\n        }\n    }\n}\n\nmyMap.prototype.clear = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e () {\n    this.init()\n}\n/**\n * @param  any\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e\n * @\u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e{number\u003c/span\u003e}\n */\n\n//Hash 方法，Hash的速算法我自己模拟一个，真正实践中的Hash算法肯定十分复杂\nmyMap.prototype.hash = \u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e) {\n    \u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e index = \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e;\n    \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (typeof\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e === \u003cspan class=\"hljs-string\"\u003e'string'\u003c/span\u003e) {\n        //字符串的话取前\u003cspan class=\"hljs-number\"\u003e10\u003c/span\u003e位，也没必要全部遍历完字符串，会影响性能、计算时间\n        \u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e (\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e i = \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e; i \u0026lt; \u003cspan class=\"hljs-number\"\u003e10\u003c/span\u003e; i++) {\n            index += isNaN\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e.charCodeAt(i)) ? \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e :\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e.charCodeAt(i)\n        }\n    } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (typeof\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e === \u003cspan class=\"hljs-string\"\u003e'number'\u003c/span\u003e) {\n        index = isNaN\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e) ? this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e.length - \u003cspan class=\"hljs-number\"\u003e1\u003c/span\u003e :\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e % this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e.length\n    } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (typeof\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e === \u003cspan class=\"hljs-string\"\u003e'object'\u003c/span\u003e) {\n        //    如果传入的是一个对象作为键，es6中的Map，底层Hash算法一定跟它的内存地址有关，因为取值时，比较的是是否是同一个引用。就算给了一个字面量相同的值，也不能取到值，必须试试引用相同的值才能取到\n        //    这里我只能模\u003cspan class=\"hljs-built_in\"\u003e拟key\u003c/span\u003e为对象时，经Hash算法得到的都是index=\u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e了\n        index = \u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e\n\n    } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (typeof\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e === \u003cspan class=\"hljs-string\"\u003e'undefined'\u003c/span\u003e) {\n        index = \u003cspan class=\"hljs-number\"\u003e1\u003c/span\u003e\n    } \u003cspan class=\"hljs-keyword\"\u003eelse\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eif\u003c/span\u003e (typeof\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e === \u003cspan class=\"hljs-string\"\u003e'boolean'\u003c/span\u003e) {\n        index = \u003cspan class=\"hljs-number\"\u003e2\u003c/span\u003e\n    }\n    \u003cspan class=\"hljs-keyword\"\u003ereturn\u003c/span\u003e index % this\u003cspan class=\"hljs-built_in\"\u003e.collection\u003c/span\u003e.length\n}\n\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e m = new myMap();\nm.set(\u003cspan class=\"hljs-string\"\u003e'a'\u003c/span\u003e, \u003cspan class=\"hljs-number\"\u003e1\u003c/span\u003e).set(\u003cspan class=\"hljs-string\"\u003e'b'\u003c/span\u003e, \u003cspan class=\"hljs-number\"\u003e2\u003c/span\u003e)\nconsole.log(m.get(\u003cspan class=\"hljs-string\"\u003e'a'\u003c/span\u003e), m.get(\u003cspan class=\"hljs-string\"\u003e'b'\u003c/span\u003e))\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e obj = \u003cspan class=\"hljs-built_in\"\u003e{name\u003c/span\u003e: \u003cspan class=\"hljs-string\"\u003e'lolita'\u003c/span\u003e}\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e obj2 = \u003cspan class=\"hljs-built_in\"\u003e{name\u003c/span\u003e: \u003cspan class=\"hljs-string\"\u003e'obj2'\u003c/span\u003e}\n// console.log(JSON.stringify(m, null, \u003cspan class=\"hljs-number\"\u003e4\u003c/span\u003e))\n\nm.set(obj, \u003cspan class=\"hljs-string\"\u003e'obj'\u003c/span\u003e)\nm.set(obj2, \u003cspan class=\"hljs-string\"\u003e'obj2'\u003c/span\u003e)\n// console.log(JSON.stringify(m, null, \u003cspan class=\"hljs-number\"\u003e4\u003c/span\u003e))\nconsole.log(m.get(obj))\nconsole.log(m.size)\n// console.log(m.get(obj2))\n// console.log(m.\u003cspan class=\"hljs-keyword\"\u003edelete\u003c/span\u003e(\u003cspan class=\"hljs-string\"\u003e'a'\u003c/span\u003e))\n// console.log(m.has(\u003cspan class=\"hljs-string\"\u003e'a'\u003c/span\u003e))\nconsole.log(m.\u003cspan class=\"hljs-keyword\"\u003edelete\u003c/span\u003e(\u003cspan class=\"hljs-string\"\u003e'a'\u003c/span\u003e))\nconsole.log(m.\u003cspan class=\"hljs-keyword\"\u003edelete\u003c/span\u003e(\u003cspan class=\"hljs-string\"\u003e'a'\u003c/span\u003e))\n\nconsole.log(m.\u003cspan class=\"hljs-keyword\"\u003edelete\u003c/span\u003e(obj))\nconsole.log(m.get(obj2))\n// console.log(JSON.stringify(m, null, \u003cspan class=\"hljs-number\"\u003e4\u003c/span\u003e))\n// console.log(m.\u003cspan class=\"hljs-keyword\"\u003edelete\u003c/span\u003e(obj2))\n// console.log(JSON.stringify(m, null, \u003cspan class=\"hljs-number\"\u003e4\u003c/span\u003e))\n\u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e (\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eof\u003c/span\u003e m.keys()) {\n    console.log(\u003cspan class=\"hljs-string\"\u003e'key:'\u003c/span\u003e,\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e)\n}\n//\n\u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e (\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eof\u003c/span\u003e m.values()) {\n    console.log(\u003cspan class=\"hljs-string\"\u003e'value:'\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e)\n}\n//\n\u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e (\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-type\"\u003eitem\u003c/span\u003e \u003cspan class=\"hljs-keyword\"\u003eof\u003c/span\u003e m.entries()) {\n    console.log(\u003cspan class=\"hljs-type\"\u003eitem\u003c/span\u003e[\u003cspan class=\"hljs-number\"\u003e0\u003c/span\u003e], \u003cspan class=\"hljs-type\"\u003eitem\u003c/span\u003e[\u003cspan class=\"hljs-number\"\u003e1\u003c/span\u003e])\n}\n\n\u003cspan class=\"hljs-keyword\"\u003efor\u003c/span\u003e (\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e[key\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e] \u003cspan class=\"hljs-keyword\"\u003eof\u003c/span\u003e m) {\n    console.log\u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e);\n}\n\n\u003cspan class=\"hljs-keyword\"\u003elet\u003c/span\u003e ooo = \u003cspan class=\"hljs-built_in\"\u003e{name\u003c/span\u003e: \u003cspan class=\"hljs-string\"\u003e'Jack'\u003c/span\u003e}\nm.forEach(\u003cspan class=\"hljs-keyword\"\u003efunction\u003c/span\u003e \u003cspan class=\"hljs-built_in\"\u003e(key\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003emap\u003c/span\u003e) {\n    console.log(\u003cspan class=\"hljs-string\"\u003e\"key: %s, value: %s\"\u003c/span\u003e,\u003cspan class=\"hljs-built_in\"\u003e key\u003c/span\u003e, \u003cspan class=\"hljs-keyword\"\u003evalue\u003c/span\u003e)\n    console.log(this)  //forEach第二个参数不写或者null或者undefined，this都会是全局对象\n}, ooo)\n// console.log(m.clear())\nm.set(\u003cspan class=\"hljs-literal\"\u003eNaN\u003c/span\u003e, \u003cspan class=\"hljs-number\"\u003e1\u003c/span\u003e)\nconsole.log(m.get((\u003cspan class=\"hljs-literal\"\u003eNaN\u003c/span\u003e)))\n// console.log(arr.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e())\n// console.log(arr.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e())\n// console.log(arr.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e())\n// console.log(arr.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e())\n// console.log(arr.\u003cspan class=\"hljs-keyword\"\u003enext\u003c/span\u003e())\n\u003c/code\u003e \u003c/pre\u003e"}},"__N_SSG":true},"page":"/leetcode/[slug]","query":{"slug":"模拟ES6之map.js"},"buildId":"l6GsR6YTH6JoCyLeLD2pY","nextExport":false,"isFallback":false,"gsp":true}</script><script nomodule="" src="/_next/static/runtime/polyfills-b10afcedf826ebd862ad.js"></script><script async="" data-next-page="/_app" src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/_app.js"></script><script async="" data-next-page="/leetcode/[slug]" src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/pages/leetcode/%5Bslug%5D.js"></script><script src="/_next/static/runtime/webpack-c212667a5f965e81e004.js" async=""></script><script src="/_next/static/chunks/framework.e84fa698c7ee940652bd.js" async=""></script><script src="/_next/static/chunks/commons.ceeeee915f5ebe162cf6.js" async=""></script><script src="/_next/static/runtime/main-2d0e0ec422dc1daf32e9.js" async=""></script><script src="/_next/static/chunks/7044f820306bd58a729f9022770285ba51ab18bf.7835bc517feeeb1028d6.js" async=""></script><script src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/_buildManifest.js" async=""></script><script src="/_next/static/l6GsR6YTH6JoCyLeLD2pY/_ssgManifest.js" async=""></script></body></html>

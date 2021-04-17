@@ -32,8 +32,7 @@ export default function Index({posts1, posts2}) {
                     {/*        excerpt={heroPost.excerpt}*/}
                     {/*    />*/}
                     {/*)}*/}
-                    {/*{morePosts.length > 0 && <MoreStories leetcode={morePosts}/>}*/}
-                    {/*{leetcodes.length > 0 && <MoreStories leetcode={leetcodes}/>}*/}
+                   {/**!/*/}
 
                     {/*{morePosts > 0  &&  <h2>数据结构</h2>  }*/}
                     {leetcodes.length > 0 &&  <LeetCodeList posts={leetcodes} />}
@@ -59,7 +58,7 @@ export default function Index({posts1, posts2}) {
 
 //服务端渲染，不可做cdn
 export async function getServerSideProps(context) {
-    console.log('getServerSideProps')
+    console.log('getServerSideProps123')
     const {posts1, posts2} = getAllPosts([
         'date',
         'slug',
