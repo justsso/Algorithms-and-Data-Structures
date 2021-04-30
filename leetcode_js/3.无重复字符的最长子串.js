@@ -17,7 +17,7 @@ var lengthOfLongestSubstring = function (s) {
     }
     return re
 };
-// console.log(lengthOfLongestSubstring(''))
+console.log(lengthOfLongestSubstring(''))
 let set = new Set()
 set.add(1).add(2).add(3)
 set.delete(set.keys().next().value)
@@ -40,7 +40,7 @@ var lengthOfLongestSubstring2 = function (s) {
             j++
         }
         re = Math.max(j - i, re)
-        set.delete(set.keys().next().value)
+        set.delete(set.keys().next().value) // 删除set中的第一个字符
         i++
     }
     return re

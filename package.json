@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/justsso/Algorithms-and-Data-Structures#readme",
   "devDependencies": {
-    "create-next-app": "^9.4.1"
+    "create-next-app": "^9.4.1",
+    "node-fetch": "^2.6.1"
   }
 }
