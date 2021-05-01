@@ -20,6 +20,8 @@
     "create-next-app": "^9.4.1"
   },
   "dependencies": {
-    "glob": "^7.1.6"
+    "glob": "^7.1.6",
+    "create-next-app": "^9.4.1",
+    "node-fetch": "^2.6.1"
   }
 }
