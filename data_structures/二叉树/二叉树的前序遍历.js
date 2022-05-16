@@ -11,31 +11,24 @@ function TreeNode(val) {
     this.left = this.right = null;
 }
 
-/**
- * @param {TreeNode} root
- * @return {number[]}
- */
+function TreeNode(val , left, right){
+    this.val = val;
+    this.left = left ? left : null;
+    this.right = right ? right : null;
+}
 
-//递归写法
-var preorderTraversal = function (root) {
+let preorderTraversal = function (root){
     let result = [];
+    
+    function preorder(root){
+        if(root) result.push(root.val)
+        if(!root) return
 
-    function read(root) {
-        if (root && root.val) {
-            result.push(root.val)
-        }
-
-        if (root && root.left) {
-            read(root.left)
-        }
-        if (root && root.right) {
-            read(root.right)
-        }
+        preorder(root.left);
+        preorder(root.right);
     }
-
-    read(root)
-    return result
-};
+    preorder(root)
+}
 
 let one = new TreeNode(1)
 let two = new TreeNode(2)
@@ -56,6 +49,15 @@ D.left = C
 D.right = E
 G.right = I
 I.left = H
+/**
+ *              F
+ *            /    \
+ *           B      G
+ *         /   \     \
+ *        A     D     I
+ *               \   /
+ *                E H 
+ * /
 
 // let at = preorderTraversal(one)
 // let a = preorderTraversal(F);

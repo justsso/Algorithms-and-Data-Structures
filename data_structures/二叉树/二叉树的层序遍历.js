@@ -10,42 +10,7 @@ function TreeNode(val) {
     this.left = this.right = null;
 }
 
-/**
- * @param {TreeNode} root
- * @return {number[][]}
- */
-var levelOrder = function (root) {
-    let result = [[root]], resultValue = []
-    let index = 0;
-
-    while (index < result.length) {
-        let i = 0
-        let level = []
-        let levelNode = []
-
-        while (i < result[index].length) {
-            let cur = result[index][i]
-            if (!cur) {
-                return resultValue
-            }
-            level.push(cur.val)
-
-            if (cur.left) levelNode.push(cur.left)
-            if (cur.right) levelNode.push(cur.right)
-            i++
-
-        }
-        if (level.length > 0)
-            resultValue.push(level)
-        if (levelNode.length > 0)
-            result.push(levelNode)
-
-        index++
-    }
-    return resultValue
-
-};
-var levelOrder2 = function(root) {
+var levelOrder = function(root) {
     var result = []
     if (root == null) return result
     var queue = []
@@ -80,6 +45,7 @@ three.right = two
 two.left = five
 two.right = seven
 
-console.log(levelOrder2(three))
+console.log(levelOrder(three))
 console.log(levelOrder(null))
+console.log(levelOrder(new TreeNode(6)))
 module.exports = levelOrder

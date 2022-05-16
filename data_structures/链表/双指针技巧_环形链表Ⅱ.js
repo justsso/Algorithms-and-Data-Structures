@@ -73,3 +73,34 @@ var detectCycle2 = function(head) {
 
     return helper
 };
+
+/**2022.4.30
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+ var detectCycle = function(head) {
+    let fast = head;
+    let slow = head;
+    while(fast && fast.next){
+        fast = fast.next.next;
+        slow = slow.next;
+        if(fast === slow) break; // 有环
+    }
+    if(!fast || !fast.next) return null;  // 因为无环退出while循环，返回null
+
+    fast = head; // 首次相遇之后，将fast指向头指针，slow停留在原位置
+                 // fast 和 slow 各都走一步，再次相遇的点是入环点 
+    while(fast!== slow){
+        fast = fast.next;
+        slow = slow.next;
+    }
+    return fast; // 退出上面的while，说明fast = slow了
+};
