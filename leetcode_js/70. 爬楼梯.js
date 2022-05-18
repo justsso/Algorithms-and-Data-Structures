@@ -17,6 +17,7 @@
 //动态规划题，找到状态转移方程
 // f(x) = f(x-1) + f(x-2)
 //  利用动态数组来优化
+// 滚动数组
 var climbStairs = function(n) {
 
    let p = 0,q = 1, r= 0;
@@ -29,5 +30,14 @@ var climbStairs = function(n) {
     return r
 };
 
-console.log(climbStairs(6))
-//这难道不是斐波那契额？
+console.log(climbStairs(6))  // 8
+
+for(let i = 0; i< 5; i++){
+    setTimeout(function(){
+        console.log(new Date, i)
+    }, 1000)
+}
+/**
+ * 1s后输出：
+ * 0 1 2 3 4
+ */

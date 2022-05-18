@@ -46,12 +46,13 @@ let twoSum1 = function (nums, target) {
  */
 
 //一遍Hash，以空间换时间
+//     [3,3] 6
 let twoSum2 = function (nums, target) {
     const m = new Map();
     for (let i = 0; i < nums.length; i++) {
-        if (m.has(target - nums[i])) {
+        if (m.has(target - nums[i])) { // 要先看在map中有没有符合条件的值，
             return [m.get(target - nums[i]), i]
-        } else {
+        } else {        // 然后再写入map中，以免数组中有相同的数字
             m.set(nums[i], i)
         }
     }
