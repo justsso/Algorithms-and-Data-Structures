@@ -20,3 +20,23 @@ var maxArea = function (height) {
     return res
 };
 console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))
+
+let arr = [1,2,3]
+arr.reduce(function(pre, current){
+    return pre + current
+}, 0)
+
+Array.prototype.myReduce = function(fun, init){
+    let arr = this;
+    let result = null;
+    if(!init){
+        result = arr[0]
+    }else {
+        result = init;
+    }
+    let start = init ? 0 : 1;
+    for(let i = start; i< arr.length; i++){
+        result = fun(result, arr[i])
+    }
+   return result
+}

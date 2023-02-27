@@ -44,8 +44,8 @@ var reverseList = function (head) {
 let head = new ListNode(1);
 let two = new ListNode(2);
 let three = new ListNode(3);
-// head.next = two
-// two.next = three
+head.next = two
+two.next = three
 
 console.log(head)
 console.log(reverseList(head))

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件委托</title>
+</head>
+<body>
+    <ul id="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+    <div>
+        <h3>什么叫事件委托？</h3>
+        利用JS事件冒泡动态把元素绑定事件的方法称为事件委托（Event Delegation，也叫事件代理）。
+        事件委托就是把原本需要绑定在子元素上的事件（onclick、onkeydown 等）委托给它的父元素，让父元素来监听子元素的冒泡事件，并在子元素发生事件冒泡时找到这个子元素。
+        <p>
+
+        </p>
+        <h3>事件委托的优点？</h3>
+        <p>
+            1. 减少内存消耗，提高页面性能。每一个事件处理程序都是对象，对象会占用内存。不给子元素设置事件监听，而是给父元素设置事件监听，可以大大减少了内存消耗。
+            事件处理程序需要与DOM节点进行交互，访问DOM节点会引用浏览器的重绘和重排（注意：访问DOM也是会重绘或重排的哦），从而影响页面的性能。
+        </p>
+        <p>
+            2. 动态绑定事件。当li子节点增加或者减少的时候，不用给元素增加绑定事件或者解绑事件，减少重复工作，比较灵活。
+        </p>
+    </div>
+
+    <script>
+        let list = document.querySelector('#list');
+        list.onclick = function(e){
+            console.log(e.target.innerHTML);
+        }
+    </script>
+</body>
+</html>

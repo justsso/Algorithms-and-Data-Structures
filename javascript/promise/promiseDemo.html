@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    promise 练习场
+    <div id="root"></div>
+    <script>
+      function sleep(timeout){
+          return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                  resolve()
+              }, timeout);
+          })
+      }
+      // sleep(1000).then(() => {
+      //     console.log('1s 之后')
+      // }).then(() => {
+      //    return sleep(1000)
+      // }).then(() => {
+      //     console.log('2s 之后')
+      // }).finally(() => {
+      //     console.log('promise 链结束')
+      // })
+
+
+    // promise 链式调用  chaining 
+
+    // Promise.resolve().then(sleep(1000)).then(sleep(1000))
+
+    // 并发控制最多三个同时执行
+    
+    let urls = [
+        "https://img0.baidu.com/it/u=358489060,1008822084&fm=253&fmt=auto&app=138&f=JPEG?w=654&h=500",
+        "https://img1.baidu.com/it/u=1651849877,3929319560&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=888",
+        "https://img1.baidu.com/it/u=2807134187,3678892229&fm=253&fmt=auto&app=138&f=JPEG?w=700&h=500",
+        "https://img2.baidu.com/it/u=1813893848,270842346&fm=253&fmt=auto&app=120&f=JPEG?w=658&h=411",
+        "https://img2.baidu.com/it/u=3037475709,1620146600&fm=253&fmt=auto&app=138&f=JPEG?w=650&h=407",
+        "https://img1.baidu.com/it/u=1736781256,1446054585&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500",
+        "https://img0.baidu.com/it/u=1059485755,2656875301&fm=253&fmt=auto&app=138&f=JPEG?w=508&h=500",
+        "https://img1.baidu.com/it/u=931545919,4030748642&fm=253&fmt=auto&app=138&f=JPEG?w=306&h=459"
+    ];
+
+    function loadImage(url){
+        return sleep(Math.random() * 3000).then(() => {
+            return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.width = 100;
+            img.onload = function(){
+                console.log(img.src + ' 一张图片加载完成')
+                let root = document.querySelector('#root');
+                root.appendChild(img)
+                resolve(img)
+
+            }
+            img.onerror = function(){
+                reject(new Error('Could not load image at ' + url));
+            }
+            img.src = url
+        })
+        }) 
+    }
+
+    function limitLoad(urls, handler, limit){
+        let sequence = [].concat(urls);
+        let promises = sequence.splice(0, limit).map((url, index) => {
+            return handler(url).then(() => {
+                return index;
+            })
+        })
+        // 数组的 splice 方法，返回被删除的数组，也会改变原来的数组
+
+        return sequence.reduce((pCollect, url) => {
+            return pCollect.then(() => {
+                console.log(promises)
+                return Promise.race(promises);
+            }).then(index => {
+                console.log(index, 73)
+                promises[index] = handler(url).then(() => {
+                    return index
+                })
+            }).catch(err => {
+                console.log(err)
+            })
+        }, Promise.resolve())
+        .then(() => {
+            return Promise.all(promises)
+        })
+    }
+
+
+    limitLoad(urls, loadImage, 3).then(res => {
+        console.log('图片全部加载完成')
+        console.log(res)    
+    }).catch(err => {
+        console.error(err)
+    })
+
+
+    </script>
+  </body>
+</html>

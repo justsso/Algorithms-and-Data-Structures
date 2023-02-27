@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="item">一二三四</div>
+        <div class="item">一二三四五六</div>
+        <div class="item">一二三四</div>
+        <div class="item">一二三四五六</div>
+    </div>
+
+    <style>
+        .container {
+            width: 280px;
+            display: flex;
+        }
+        /** 以下两种item样式，最终布局是什么样的 */
+        .item {
+            flex: 1 1 0%;
+        }
+        
+      /* .item {
+        flex: 1 1 auto;
+      } */
+    </style>
+      
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        a: {
+          b: 1,
+          c: 2,
+          d: {
+            e: 5,
+          },
+        },
+        b: [1, 3, { a: 2, b: 3 }],
+        c: 3,
+      };
+
+    //   输出结果
+    // {
+    //   'a.b': 1,
+    //   'a.c': 2,
+    //   'a.d.e': 5,
+    //   'b[0]': 1,
+    //   'b[1]': 3,
+    //   'b[2].a': 2,
+    //   'b[2].b': 3
+    //    c: 3
+    // }
+      function flatten(obj){
+          let result = {}
+
+            function flat(obj, preKey = ''){
+                Object.entries(obj).forEach(([key, value]) => {
+                    let newKey = key;
+                    if(Array.isArray(obj)){
+                        newKey = preKey ? `${preKey}[${key}]` : key
+                    }else{
+                        newKey = preKey ? `${preKey}.${key}` : key
+                    }
+                    if(value && typeof value ==="object"){
+                        flat(value, newKey)  // value 是对象或者数组就继续递归展开
+                    }else{
+                        result[newKey] = value  // value 是基本类型的就写进result
+                    }
+                })
+            }
+
+            flat(obj);
+            return result;
+
+          
+      }
+    </script>
+  </body>
+</html>

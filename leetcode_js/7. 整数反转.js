@@ -62,17 +62,33 @@ let reverse2 = function (x) {
 // console.log(reverse2(1212412432459))
 
 let reverse3 = function (x) {
-    let result = 0, _Max = Math.pow(2, 31) - 1, _MiN = -Math.pow(2, 31);
+    // let result = 0, _Max = Math.pow(2, 31) - 1, _MiN = -Math.pow(2, 31);
+    // let temp_x = Math.abs(x);
+    // while (temp_x !== 0) {
+    //     result = result * 10 + temp_x % 10;
+    //     if (result > _Max) {
+    //         return 0;
+    //     }
+    //     temp_x = Math.floor(temp_x / 10)
+    // }
+    // result = x < 0 ? -result : result;
+    // if (result > _Max || result < _MiN) {
+    //     return 0
+    // }
+    // return result;
+    let result = 0;
     let temp_x = Math.abs(x);
-    while (temp_x !== 0) {
+    let _Max = Math.pow(2, 31);
+    let _Min = - Math.pow(2,31)
+    while (temp_x !==0){
         result = result * 10 + temp_x % 10;
-        if (result > _Max) {
-            return 0;
+        if(result > _Max ){
+            return 0
         }
-        temp_x = Math.floor(temp_x / 10)
+        temp_x = Math.floor(temp_x % 10)
     }
-    result = x < 0 ? -result : result;
-    if (result > _Max || result < _MiN) {
+    result = x< 0 ? - result : result
+    if(result > _Max || result < _Min){
         return 0
     }
     return result;
